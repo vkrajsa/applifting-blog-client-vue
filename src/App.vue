@@ -1,16 +1,17 @@
 <template>
-  <header class="header">
-    <nav class="inner" role="navigation">
-      <router-link to="/articles" class="nav-link">Articles</router-link>
-      <router-link to="/login" class="nav-link">Login</router-link>
-    </nav>
-  </header>
-
-  <router-view v-slot="{ Component }">
-    <transition name="fade" mode="out-in">
+  <div id="main">
+    <AppNavigation />
+    <router-view v-slot="{ Component }">
       <component :is="Component" />
-    </transition>
-  </router-view>
+    </router-view>
+  </div>
 </template>
+
+<script>
+import AppNavigation from '@/components/AppNavigation';
+export default {
+  components: { AppNavigation },
+};
+</script>
 
 <style lang="scss"></style>
