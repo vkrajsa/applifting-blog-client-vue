@@ -1,6 +1,4 @@
 <script>
-import { mapActions } from 'vuex';
-
 export default {
   data() {
     return {
@@ -14,7 +12,7 @@ export default {
     async logIn() {
       try {
         await this.$store.dispatch('auth/logIn', this.credentials);
-        console.log('logged in successfully');
+        this.$router.push('/articles');
       } catch (error) {
         console.log('error');
       }
