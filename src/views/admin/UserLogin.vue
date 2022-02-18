@@ -1,21 +1,56 @@
+<script>
+import { mapActions } from 'vuex';
+
+export default {
+  data() {
+    return {
+      credentials: {
+        username: '',
+        password: '',
+      },
+    };
+  },
+  methods: {
+    async logIn() {
+      try {
+        await this.$store.dispatch('auth/logIn', this.credentials);
+        console.log('logged in successfully');
+      } catch (error) {
+        console.log('error');
+      }
+    },
+  },
+};
+</script>
+
 <template>
-  <form class="form-login card p-5">
+  <form class="form-login card p-5" @submit.prevent="logIn">
     <h1 class="h3 mb-3">Please Log in</h1>
 
     <div class="form-floating">
-      <input type="email" class="form-control" id="floatingInput" placeholder="Username" />
+      <input
+        v-model="credentials.username"
+        type="text"
+        class="form-control"
+        id="floatingInput"
+        placeholder="Username"
+      />
       <label for="floatingInput">Username</label>
     </div>
     <div class="form-floating">
-      <input type="password" class="form-control" id="floatingPassword" placeholder="Password" />
+      <input
+        v-model="credentials.password"
+        type="password"
+        class="form-control"
+        id="floatingPassword"
+        placeholder="Password"
+      />
       <label for="floatingPassword">Password</label>
     </div>
 
     <button class="w-100 btn btn-lg btn-primary mt-4" type="submit">Log in</button>
   </form>
 </template>
-
-<script></script>
 
 <style lang="scss" scoped>
 .form {
