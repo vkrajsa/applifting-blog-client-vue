@@ -1,4 +1,7 @@
 <script>
+import BaseInput from '@/components/base/BaseInput.vue';
+import BaseButton from '@/components/base/BaseButton.vue';
+
 export default {
   data() {
     return {
@@ -14,9 +17,13 @@ export default {
         await this.$store.dispatch('auth/logIn', this.credentials);
         this.$router.push('/articles');
       } catch (error) {
-        console.log('error');
+        console.log(error);
       }
     },
+  },
+  components: {
+    BaseInput,
+    BaseButton,
   },
 };
 </script>
@@ -24,29 +31,9 @@ export default {
 <template>
   <form class="form-login card p-5" @submit.prevent="logIn">
     <h1 class="h3 mb-3">Please Log in</h1>
-
-    <div class="form-floating">
-      <input
-        v-model="credentials.username"
-        type="text"
-        class="form-control"
-        id="floatingInput"
-        placeholder="Username"
-      />
-      <label for="floatingInput">Username</label>
-    </div>
-    <div class="form-floating">
-      <input
-        v-model="credentials.password"
-        type="password"
-        class="form-control"
-        id="floatingPassword"
-        placeholder="Password"
-      />
-      <label for="floatingPassword">Password</label>
-    </div>
-
-    <button class="w-100 btn btn-lg btn-primary mt-4" type="submit">Log in</button>
+    <BaseInput v-model="credentials.username" label="Username" type="text" />
+    <BaseInput v-model="credentials.password" label="Password" type="password" />
+    <BaseButton customClass="btn-primary mt-3" type="submit">Log in</BaseButton>
   </form>
 </template>
 
@@ -55,24 +42,6 @@ export default {
   &-login {
     max-width: 330px;
     margin: auto;
-
-    input[type='email'] {
-      margin-bottom: -1px;
-      border-bottom-right-radius: 0;
-      border-bottom-left-radius: 0;
-    }
-
-    input[type='password'] {
-      margin-bottom: 10px;
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-    }
-  }
-
-  &-floating {
-    :focus-within {
-      z-index: 2;
-    }
   }
 }
 </style>
