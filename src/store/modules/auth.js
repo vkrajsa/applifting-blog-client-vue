@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { userLogin } from '@/api/user';
+import router from '@/router/index';
+import { Notification } from '@/store/helpers';
 
 const state = () => ({
   token: null,
@@ -25,10 +27,16 @@ const mutations = {
 };
 
 const actions = {
-  async logIn({ commit }, credentials) {
-    const response = await userLogin(credentials);
-    const userToken = response.data;
-    commit('setToken', userToken);
+  async logIn({ commit, dispatch }, credentials) {
+    try {
+      const response = await userLogin(credentials);
+      const userToken = response.data;
+
+      commit('setToken', userToken);
+    } catch (error) {
+      dispatch('notifications/add', new Notification(error.response), { root: true });
+      throw error;
+    }
   },
 
   logOut({ commit }) {

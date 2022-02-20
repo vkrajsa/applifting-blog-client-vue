@@ -17,10 +17,11 @@ export default {
         await this.$store.dispatch('auth/logIn', this.credentials);
         this.$router.push('/articles');
       } catch (error) {
-        console.log(error);
+        // TODO: handle loading state, display wrong password/username optionally
       }
     },
   },
+
   components: {
     BaseInput,
     BaseButton,
