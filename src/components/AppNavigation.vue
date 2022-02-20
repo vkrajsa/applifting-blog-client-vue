@@ -1,7 +1,9 @@
 <script>
 import { isAuthenticated } from '@/store/helpers';
+
 export default {
   created() {},
+
   methods: {
     logOut() {
       this.$store.dispatch('auth/logOut');

@@ -22,7 +22,6 @@ const mutations = {
 
 const actions = {
   add({ commit }, notification) {
-    console.log(notification);
     commit('pushNotification', notification);
   },
   remove({ commit }, notification) {
