@@ -1,8 +1,17 @@
 <script>
 import BaseInput from '@/components/base/BaseInput.vue';
 import BaseButton from '@/components/base/BaseButton.vue';
+import useVuelidate from '@vuelidate/core';
+import { required, helpers } from '@vuelidate/validators';
 
 export default {
+  components: {
+    BaseInput,
+    BaseButton,
+  },
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       credentials: {
@@ -11,8 +20,26 @@ export default {
       },
     };
   },
+  validations() {
+    return {
+      credentials: {
+        username: {
+          required: helpers.withMessage('Please fill your name.', required),
+        },
+        password: {
+          required: helpers.withMessage('Please fill your password.', required),
+        },
+      },
+    };
+  },
   methods: {
     async logIn() {
+      this.v$.$touch();
+
+      if (this.v$.$invalid) {
+        return;
+      }
+
       try {
         await this.$store.dispatch('auth/logIn', this.credentials);
         this.$router.push('/articles');
@@ -21,19 +48,25 @@ export default {
       }
     },
   },
-
-  components: {
-    BaseInput,
-    BaseButton,
-  },
 };
 </script>
 
 <template>
   <form class="form-login card p-5" @submit.prevent="logIn">
     <h1 class="h3 mb-3">Please Log in</h1>
-    <BaseInput v-model="credentials.username" label="Username" type="text" />
-    <BaseInput v-model="credentials.password" label="Password" type="password" />
+    <BaseInput
+      v-model="credentials.username"
+      label="Username"
+      type="text"
+      :validations="v$.credentials.username.$errors"
+    />
+    <BaseInput
+      v-model="credentials.password"
+      label="Password"
+      type="password"
+      :validations="v$.credentials.password.$errors"
+    />
+
     <BaseButton customClass="btn-primary mt-3" type="submit">Log in</BaseButton>
   </form>
 </template>
