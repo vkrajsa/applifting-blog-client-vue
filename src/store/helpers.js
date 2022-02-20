@@ -8,12 +8,6 @@ export class Notification {
   constructor(response) {
     this.title = response.data.title || response.data.message;
     this.status = response.status;
-
-    this.notificationType = () => {
-      if (this.status >= 400) {
-        return 'error';
-      }
-      return 'success';
-    };
+    this.notificationType = this.status >= 400 ? 'error' : 'success';
   }
 }
