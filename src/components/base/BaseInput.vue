@@ -8,15 +8,10 @@
       @input="$emit('update:modelValue', $event.target.value)"
     />
     <label>{{ label }}</label>
-    <BaseValidationError v-for="error in validations" :key="error.$uid">
-      {{ error.$message }}
-    </BaseValidationError>
   </div>
 </template>
 
 <script>
-import BaseValidationError from '@/components/base/BaseValidationError.vue';
-
 export default {
   props: {
     label: {
@@ -27,16 +22,9 @@ export default {
       type: String,
       default: '',
     },
-    validations: {
-      type: Array,
-      default: () => [],
-    },
     modelValue: {
       type: [String, Number],
     },
-  },
-  components: {
-    BaseValidationError,
   },
 };
 </script>
