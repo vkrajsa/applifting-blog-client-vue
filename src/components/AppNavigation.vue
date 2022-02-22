@@ -2,16 +2,16 @@
 import { isAuthenticated } from '@/store/helpers';
 
 export default {
+  // i have access to getters defined in isAuthenticated
+  computed: {
+    ...isAuthenticated,
+  },
   created() {},
 
   methods: {
     logOut() {
       this.$store.dispatch('auth/logOut');
     },
-  },
-  // i have access to getters defined in isAuthenticated
-  computed: {
-    ...isAuthenticated,
   },
 };
 </script>

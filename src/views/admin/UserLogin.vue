@@ -3,6 +3,11 @@ import BaseInput from '@/components/base/BaseInput.vue';
 import BaseButton from '@/components/base/BaseButton.vue';
 
 export default {
+
+  components: {
+    BaseInput,
+    BaseButton,
+  },
   data() {
     return {
       credentials: {
@@ -21,11 +26,6 @@ export default {
       }
     },
   },
-
-  components: {
-    BaseInput,
-    BaseButton,
-  },
 };
 </script>
 
@@ -34,7 +34,7 @@ export default {
     <h1 class="h3 mb-3">Please Log in</h1>
     <BaseInput v-model="credentials.username" label="Username" type="text" />
     <BaseInput v-model="credentials.password" label="Password" type="password" />
-    <BaseButton customClass="btn-primary mt-3" type="submit">Log in</BaseButton>
+    <BaseButton custom-class="btn-primary mt-3" type="submit">Log in</BaseButton>
   </form>
 </template>
 
