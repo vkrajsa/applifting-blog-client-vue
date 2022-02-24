@@ -2,7 +2,7 @@ import { mapGetters } from 'vuex';
 import { AxiosResponse } from 'axios';
 
 export const isAuthenticated = {
-  ...mapGetters('auth', ['isLoggedIn']),
+  ...mapGetters('user', ['isLoggedIn']),
 };
 export class Notification {
   title: string;

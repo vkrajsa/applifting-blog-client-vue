@@ -6,13 +6,6 @@ import store from './store/index';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const app = createApp({
-  created() {
-    const userToken = localStorage.getItem('userToken');
-
-    if (userToken) {
-      this.$store.commit('auth/setToken', JSON.parse(userToken));
-    }
-  },
   render: () => h(App),
 });
 

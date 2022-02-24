@@ -1,41 +1,46 @@
-import axios from 'axios';
 import { userLogin } from '@/services/user';
 import { MutationTree, ActionTree } from 'vuex';
 import { RootState } from '@/store';
+import Storage from '@/utils/storage';
+import { setAuthorizationHeader } from '@/utils/auth';
+
+export const userStorage = new Storage<User>('user');
 
 export type State = User;
 
 const state: State = {
-  username: null,
-  token: null,
+  user: userStorage.get(),
+  username: '',
 };
 
 const getters = {
   isLoggedIn(state: State) {
-    return !!state.token;
+    return !!state.user;
   },
 };
 
 const mutations: MutationTree<State> = {
-  setToken(state: State, userToken) {
-    // state.token = true;
-    localStorage.setItem('userToken', JSON.stringify(userToken));
-    axios.defaults.headers.common['Authorization'] = `Bearer ${userToken.access_token}`;
+  setUser(state: State, userData) {
+    userStorage.set(userData.user);
+    setAuthorizationHeader();
+
+    state.user = true;
+    state.username = userData.username;
   },
 
-  clearToken() {
-    localStorage.removeItem('userToken');
+  removeUser() {
+    userStorage.remove();
     location.reload();
   },
 };
 
 const actions: ActionTree<State, RootState> = {
-  async logIn({ commit, dispatch }, credentials) {
+  async logIn({ commit, dispatch }, credentials: Credentials) {
     try {
       const response = await userLogin(credentials);
-      const userToken = response.data;
+      const userData = { user: response.data, username: credentials.username };
 
-      commit('setToken', userToken);
+      commit('setUser', userData);
     } catch (error) {
       dispatch('notifications/add', error.response, { root: true });
 
@@ -44,7 +49,7 @@ const actions: ActionTree<State, RootState> = {
   },
 
   logOut({ commit }) {
-    commit('clearToken');
+    commit('removeUser');
   },
 };
 

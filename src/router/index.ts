@@ -41,7 +41,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to) => {
-  if (to.meta.requiresAuth && !store.getters['auth/isLoggedIn']) {
+  if (to.meta.requiresAuth && !store.getters['user/isLoggedIn']) {
     return {
       path: '/login',
     };

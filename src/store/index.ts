@@ -1,17 +1,17 @@
 import { createStore } from 'vuex';
-import auth from './modules/user';
+import user from './modules/user';
 import notifications from './modules/notifications';
-import { State as AuthState } from '@/store/modules/user';
-import { State as NotificationState } from '@/store/modules/user';
+import { State as UserState } from '@/store/modules/user';
+import { State as NotificationState } from '@/store/modules/notifications';
 
 export type RootState = {
-  auth: AuthState;
+  user: UserState;
   notifications: NotificationState;
 };
 
 export default createStore({
   modules: {
-    auth,
+    user,
     notifications,
   },
 });
