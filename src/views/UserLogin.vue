@@ -9,11 +9,6 @@ export default {
   components: {
     BaseInput,
     BaseButton,
-    BaseValidation,
-  },
-
-  setup() {
-    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -44,7 +39,8 @@ export default {
       }
 
       try {
-        await this.$store.dispatch('auth/logIn', this.credentials);
+        console.log(this.$store);
+        await this.$store.dispatch('user/logIn', this.credentials);
         this.$router.push('/articles');
       } catch (error) {
         // TODO: handle loading state, display wrong password/username optionally
@@ -60,7 +56,9 @@ export default {
     <BaseInput v-model="credentials.username" label="Username" type="text" data-username />
     <BaseValidation :errors="v$.credentials.username.$errors" />
     <BaseInput v-model="credentials.password" label="Password" type="password" />
+
     <BaseValidation :errors="v$.credentials.password.$errors" />
+
     <BaseButton custom-class="btn-primary mt-3" type="submit">Log in</BaseButton>
   </form>
 </template>

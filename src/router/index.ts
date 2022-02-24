@@ -8,29 +8,29 @@ const routes = [
   },
   {
     path: '/articles',
-    component: () => import('@/views/user/ArticleList.vue'),
+    component: () => import('@/views/ArticleList.vue'),
   },
   {
     path: '/articles/:id',
-    component: () => import('@/views/user/ArticleDetail.vue'),
+    component: () => import('@/views/ArticleDetail.vue'),
   },
   {
     path: '/login',
-    component: () => import('@/views/admin/UserLogin.vue'),
+    component: () => import('@/views/UserLogin.vue'),
   },
   {
     path: '/add-article',
-    component: () => import('@/views/user/ArticleNew.vue'),
+    component: () => import('@/views/ArticleNew.vue'),
     meta: { requiresAuth: true },
   },
   {
     path: '/my-articles',
-    component: () => import('@/views/admin/MyArticles.vue'),
+    component: () => import('@/views/MyArticles.vue'),
     meta: { requiresAuth: true },
   },
   {
     path: '/my-articles/:id',
-    component: () => import('@/views/admin/ArticleEdit.vue'),
+    component: () => import('@/views/ArticleEdit.vue'),
     meta: { requiresAuth: true },
   },
 ];
@@ -41,7 +41,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to) => {
-  if (to.meta.requiresAuth && !store.getters['auth/isLoggedIn']) {
+  if (to.meta.requiresAuth && !store.getters['user/isLoggedIn']) {
     return {
       path: '/login',
     };

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const api = axios.create({
+export default axios.create({
   baseURL: process.env.VUE_APP_API,
   headers: {
     Accept: 'application/json',
@@ -8,5 +8,3 @@ const api = axios.create({
     'Content-Type': 'application/json',
   },
 });
-
-export default api;

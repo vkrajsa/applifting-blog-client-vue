@@ -1,24 +1,15 @@
-# applifting-blog-client-vue
+# applifting blog in vue
 
-## Project setup
-```
-npm install
-```
+## Live demo
 
-### Compiles and hot-reloads for development
-```
-npm run serve
 ```
 
-### Compiles and minifies for production
-```
-npm run build
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
+## Goals that I set for myself to accomplish
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Scripts
+
+```
+`npm run serve` to start localhost server
+```
