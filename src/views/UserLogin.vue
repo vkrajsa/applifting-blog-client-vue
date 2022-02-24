@@ -3,7 +3,6 @@ import BaseInput from '@/components/base/BaseInput.vue';
 import BaseButton from '@/components/base/BaseButton.vue';
 
 export default {
-
   components: {
     BaseInput,
     BaseButton,
@@ -19,7 +18,8 @@ export default {
   methods: {
     async logIn() {
       try {
-        await this.$store.dispatch('auth/logIn', this.credentials);
+        console.log(this.$store);
+        await this.$store.dispatch('user/logIn', this.credentials);
         this.$router.push('/articles');
       } catch (error) {
         // TODO: handle loading state, display wrong password/username optionally

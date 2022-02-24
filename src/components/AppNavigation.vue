@@ -6,11 +6,10 @@ export default {
   computed: {
     ...isAuthenticated,
   },
-  created() {},
 
   methods: {
     logOut() {
-      this.$store.dispatch('auth/logOut');
+      this.$store.dispatch('user/logOut');
     },
   },
 };
