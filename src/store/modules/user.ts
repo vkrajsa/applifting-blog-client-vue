@@ -1,21 +1,24 @@
 import axios from 'axios';
-import { userLogin } from '@/api/user';
-import router from '@/router/index';
-import { Notification } from '@/store/helpers';
+import { userLogin } from '@/services/user';
+import { MutationTree, ActionTree } from 'vuex';
+import { RootState } from '@/store';
 
-const state = () => ({
+export type State = User;
+
+const state: State = {
+  username: null,
   token: null,
-});
+};
 
 const getters = {
-  isLoggedIn(state) {
+  isLoggedIn(state: State) {
     return !!state.token;
   },
 };
 
-const mutations = {
-  setToken(state, userToken) {
-    state.token = true;
+const mutations: MutationTree<State> = {
+  setToken(state: State, userToken) {
+    // state.token = true;
     localStorage.setItem('userToken', JSON.stringify(userToken));
     axios.defaults.headers.common['Authorization'] = `Bearer ${userToken.access_token}`;
   },
@@ -26,7 +29,7 @@ const mutations = {
   },
 };
 
-const actions = {
+const actions: ActionTree<State, RootState> = {
   async logIn({ commit, dispatch }, credentials) {
     try {
       const response = await userLogin(credentials);
@@ -34,7 +37,8 @@ const actions = {
 
       commit('setToken', userToken);
     } catch (error) {
-      dispatch('notifications/add', new Notification(error.response), { root: true });
+      dispatch('notifications/add', error.response, { root: true });
+
       throw error;
     }
   },

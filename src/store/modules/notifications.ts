@@ -1,18 +1,25 @@
-const state = {
+import { MutationTree, ActionTree } from 'vuex';
+import { Notification } from '@/store/helpers';
+import { RootState } from '@/store';
+
+export type State = {
+  notifications: Notification[];
+};
+
+const state: State = {
   notifications: [],
 };
 
 let nextId = 1;
 
-const mutations = {
+const mutations: MutationTree<State> = {
   pushNotification(state, notification) {
     // maximum notifications on screen set to 3
-    if (state.notifications.length > 3) {
+    if (state.notifications.length > 2) {
       state.notifications.shift();
     }
     state.notifications.push({
-      id: nextId++,
-      ...notification,
+      ...new Notification(notification, nextId++),
     });
   },
   removeNotification(state, notificationToRemove) {
@@ -20,9 +27,9 @@ const mutations = {
   },
 };
 
-const actions = {
-  add({ commit }, notification) {
-    commit('pushNotification', notification);
+const actions: ActionTree<State, RootState> = {
+  add({ commit }, response) {
+    commit('pushNotification', response);
   },
   remove({ commit }, notification) {
     commit('removeNotification', notification);
