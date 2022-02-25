@@ -6,6 +6,7 @@
       :type="type"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
+      :required="required"
     />
     <label>{{ label }}</label>
   </div>
@@ -17,6 +18,10 @@ export default {
     label: {
       type: String,
       default: '',
+    },
+    required: {
+      type: Boolean,
+      default: false,
     },
     type: {
       type: String,

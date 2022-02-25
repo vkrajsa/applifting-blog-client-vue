@@ -1,40 +1,43 @@
-<script>
-import BaseInput from '@/components/base/BaseInput.vue';
-import BaseButton from '@/components/base/BaseButton.vue';
+<script setup lang="ts">
+import BaseInput from '../components/base/BaseInput.vue';
+import BaseButton from '../components/base/BaseButton.vue';
+import BaseError from '../components/base/BaseError.vue';
 
-export default {
-  components: {
-    BaseInput,
-    BaseButton,
-  },
-  data() {
-    return {
-      credentials: {
-        username: '',
-        password: '',
-      },
-    };
-  },
-  methods: {
-    async logIn() {
-      try {
-        console.log(this.$store);
-        await this.$store.dispatch('user/logIn', this.credentials);
-        this.$router.push('/articles');
-      } catch (error) {
-        // TODO: handle loading state, display wrong password/username optionally
-      }
-    },
-  },
+import { PostLogin } from '../types/user';
+import store from '../store/index';
+import router from '../router/index';
+
+import { reactive, ref } from 'vue';
+
+const form = reactive<PostLogin>({
+  username: '',
+  password: '',
+});
+
+let errorMsg = ref('');
+
+const login = async () => {
+  try {
+    await store.dispatch('user/logIn', form);
+    router.push('/articles');
+  } catch (error: unknown) {
+    console.log(error.response.status);
+    let message = 'Something went wrong';
+    if (error.response.status === 400) message = 'Invalid password or username';
+    errorMsg.value = message;
+  }
 };
 </script>
 
 <template>
-  <form class="form-login card p-5" @submit.prevent="logIn">
+  <form class="form-login card p-5" @submit.prevent="login">
     <h1 class="h3 mb-3">Please Log in</h1>
-    <BaseInput v-model="credentials.username" label="Username" type="text" />
-    <BaseInput v-model="credentials.password" label="Password" type="password" />
-    <BaseButton custom-class="btn-primary mt-3" type="submit">Log in</BaseButton>
+    <BaseInput v-model="form.username" label="Username" type="text" required />
+    <BaseInput v-model="form.password" label="Password" type="password" required />
+    <BaseButton custom-class="btn-primary mt-3" type="submit" :disabled="!form.username || !form.password"
+      >Log in</BaseButton
+    >
+    <BaseError v-if="!!errorMsg">{{ errorMsg }}</BaseError>
   </form>
 </template>
 

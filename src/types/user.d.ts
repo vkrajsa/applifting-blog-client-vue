@@ -1,8 +1,9 @@
-declare interface User {
+export interface User {
   user: boolean | null;
   username: string | null;
 }
-declare interface Credentials {
+
+export interface PostLogin {
   username: string;
-  token: string;
+  password: string;
 }

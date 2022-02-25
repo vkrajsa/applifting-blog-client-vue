@@ -9,12 +9,16 @@ export default {
       type: String,
       default: 'button',
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
 };
 </script>
 
 <template>
-  <button class="btn" :class="customClass" :type="type">
+  <button class="btn" :class="customClass" :type="type" :disabled="disabled">
     <slot />
   </button>
 </template>
