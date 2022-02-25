@@ -44,7 +44,6 @@ const actions: ActionTree<State, RootState> = {
 
       commit('setUser', userData);
     } catch (error) {
-      // dispatch('notifications/add', error.response, { root: true });
       dispatchNotification(error.response.status);
       throw error;
     }
