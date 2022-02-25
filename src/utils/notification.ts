@@ -26,9 +26,7 @@ export function setNotificationMessage(statusCode: number): string {
 }
 
 export function dispatchNotification(statusCode: number): void {
-  console.log('statusCode');
   const message = setNotificationMessage(statusCode);
-  console.log(statusCode);
 
   store.dispatch('notifications/add', new CustomNotification(message, statusCode, _uniqueId()), { root: true });
 }

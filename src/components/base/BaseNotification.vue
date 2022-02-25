@@ -5,7 +5,6 @@ export default {
   props: {
     notification: {
       type: Object,
-      default: () => {},
     },
   },
 
@@ -33,7 +32,7 @@ export default {
     class="alert alert-warning p-2"
     :class="[notification.notificationType === 'error' ? 'alert-danger' : 'alert-success']"
   >
-    {{ notification.title }}
+    {{ notification.message }}
     <!-- TODO: WHEN I ADD ICONS -->
     <!-- <button @click="close()">CLICK TO CLOSE</button> -->
   </div>

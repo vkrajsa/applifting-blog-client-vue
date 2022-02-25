@@ -3,6 +3,7 @@ import { MutationTree, ActionTree } from 'vuex';
 import { RootState } from '@/store';
 import Storage from '@/utils/storage';
 import { setAuthorizationHeader } from '@/utils/auth';
+import { dispatchNotification } from '@/utils/notification';
 import { User, PostLogin } from '@/types/user';
 
 export const userStorage = new Storage<User>('user');
@@ -43,7 +44,8 @@ const actions: ActionTree<State, RootState> = {
 
       commit('setUser', userData);
     } catch (error) {
-      dispatch('notifications/add', error.response, { root: true });
+      // dispatch('notifications/add', error.response, { root: true });
+      dispatchNotification(error.response.status);
       throw error;
     }
   },
