@@ -1,28 +1,24 @@
-<script>
-import { isAuthenticated } from '@/store/helpers';
+<script setup lang="ts">
+import AppLink from '../components/AppLink.vue';
+import BaseButton from '../components/base/BaseButton.vue';
+import { isAuth } from '../composable/useAuth';
+import { useStore } from 'vuex';
 
-export default {
-  // i have access to getters defined in isAuthenticated
-  computed: {
-    ...isAuthenticated,
-  },
+const store = useStore();
 
-  methods: {
-    logOut() {
-      this.$store.dispatch('user/logOut');
-    },
-  },
-};
+function logOut() {
+  store.dispatch('user/logOut');
+}
 </script>
 
 <template>
   <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light container-fluid" role="navigation">
-      <router-link to="/articles" class="nav-link">Recent Articles</router-link>
-      <router-link v-if="isLoggedIn" to="/my-articles" class="nav-link">My Articles</router-link>
-      <router-link v-if="isLoggedIn" to="/add-article" class="nav-link">Create Article</router-link>
-      <router-link v-if="!isLoggedIn" to="/login" class="nav-link ms-auto">Login</router-link>
-      <button v-else class="btn btn-primary" @click="logOut()">Log-out</button>
+      <AppLink name="articles" class="nav-link">Recent Articles</AppLink>
+      <AppLink v-if="isAuth" name="article-post" class="nav-link">Create Article</AppLink>
+      <AppLink v-if="isAuth" name="articles-admin" class="nav-link">My Articles</AppLink>
+      <AppLink v-if="!isAuth" name="login" class="nav-link">Login</AppLink>
+      <BaseButton v-if="isAuth" @click="logOut()"> Log-out</BaseButton>
     </nav>
   </header>
 </template>

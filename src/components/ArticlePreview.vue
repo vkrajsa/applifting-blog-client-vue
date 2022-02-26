@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Article } from '@/types/article';
+import AppLink from '../components/AppLink.vue';
 
 interface Props {
   article: Article;
@@ -28,6 +29,10 @@ const props = defineProps<Props>();
           <p class="card-text">
             {{ article.perex }}
           </p>
+
+          <AppLink name="article-detail" :params="{ id: article.articleId }">Read more</AppLink>
+
+          <!-- <AppLink @click="routerPush('article-detail', { id: article.articleId })">Read more</AppLink> -->
           <!-- TODO: ADD COMMENTS -->
           <!-- TODO: ADD DETAIL LINK -->
         </div>
