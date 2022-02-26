@@ -37,7 +37,7 @@ const mutations: MutationTree<State> = {
 };
 
 const actions: ActionTree<State, RootState> = {
-  async logIn({ commit, dispatch }, credentials: PostLogin) {
+  async logIn({ commit }, credentials: PostLogin) {
     try {
       const response = await userLogin(credentials);
       const userData = { user: response.data, username: credentials.username };

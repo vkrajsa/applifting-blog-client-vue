@@ -17,7 +17,6 @@ const mutations: MutationTree<State> = {
       state.notifications.shift();
     }
     state.notifications.push(notification);
-    console.log(state.notifications);
   },
   removeNotification(state, notificationToRemove) {
     state.notifications = state.notifications.filter((notification) => notification.id !== notificationToRemove.id);
@@ -26,7 +25,6 @@ const mutations: MutationTree<State> = {
 
 const actions: ActionTree<State, RootState> = {
   add({ commit }, notification) {
-    console.log(notification);
     commit('pushNotification', notification);
   },
   remove({ commit }, notification) {
