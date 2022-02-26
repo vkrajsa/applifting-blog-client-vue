@@ -8,7 +8,7 @@ const routes = [
   },
   {
     path: '/articles',
-    component: () => import('@/views/ArticleList.vue'),
+    component: () => import('@/views/RecentArticles.vue'),
   },
   {
     path: '/articles/:id',

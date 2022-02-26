@@ -1,7 +1,7 @@
 import api from './api';
 import { Article } from '../types/article';
 
-async function fetchArticles(isAdmin = false) {
+async function getArticles(isAdmin = false) {
   return await api.get(`/articles`, { withCredentials: isAdmin });
 }
 
@@ -21,4 +21,4 @@ async function deleteArticle(id: string) {
   return await api.delete(`/articles/${id}`);
 }
 
-export { fetchArticles, postArticle, getArticleDetail, updateArticle, deleteArticle };
+export { getArticles, postArticle, getArticleDetail, updateArticle, deleteArticle };
