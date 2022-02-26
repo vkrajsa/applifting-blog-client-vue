@@ -1,65 +1,43 @@
-<script>
-import BaseInput from '@/components/base/BaseInput.vue';
-import BaseValidation from '@/components/base/BaseValidation.vue';
-import BaseButton from '@/components/base/BaseButton.vue';
-import useVuelidate from '@vuelidate/core';
-import { required, helpers } from '@vuelidate/validators';
+<script setup lang="ts">
+import BaseInput from '../components/base/BaseInput.vue';
+import BaseButton from '../components/base/BaseButton.vue';
+import BaseError from '../components/base/BaseError.vue';
 
-export default {
-  components: {
-    BaseInput,
-    BaseButton,
-  },
-  data() {
-    return {
-      credentials: {
-        username: '',
-        password: '',
-      },
-    };
-  },
-  validations() {
-    return {
-      credentials: {
-        username: {
-          required: helpers.withMessage('Please fill your name.', required),
-        },
-        password: {
-          required: helpers.withMessage('Please fill your password.', required),
-        },
-      },
-    };
-  },
-  methods: {
-    async logIn() {
-      this.v$.$touch();
+import { PostLogin } from '../types/user';
+import store from '../store/index';
+import router from '../router/index';
 
-      if (this.v$.$invalid) {
-        return;
-      }
+import { reactive, ref } from 'vue';
 
-      try {
-        console.log(this.$store);
-        await this.$store.dispatch('user/logIn', this.credentials);
-        this.$router.push('/articles');
-      } catch (error) {
-        // TODO: handle loading state, display wrong password/username optionally
-      }
-    },
-  },
+const form = reactive<PostLogin>({
+  username: '',
+  password: '',
+});
+
+let errorMsg = ref('');
+
+const login = async () => {
+  try {
+    await store.dispatch('user/logIn', form);
+    router.push('/articles');
+  } catch (error: unknown) {
+    console.log(error.response.status);
+    let message = 'Something went wrong';
+    if (error.response.status === 400) message = 'Invalid password or username';
+    errorMsg.value = message;
+  }
 };
 </script>
 
 <template>
-  <form class="form-login card p-5" @submit.prevent="logIn">
-    <h1 class="h3 mb-3 message">Please Log in</h1>
-    <BaseInput v-model="credentials.username" label="Username" type="text" data-username />
-    <BaseValidation :errors="v$.credentials.username.$errors" />
-    <BaseInput v-model="credentials.password" label="Password" type="password" />
-
-    <BaseValidation :errors="v$.credentials.password.$errors" />
-
-    <BaseButton custom-class="btn-primary mt-3" type="submit">Log in</BaseButton>
+  <form class="form-login card p-5" @submit.prevent="login">
+    <h1 class="h3 mb-3">Please Log in</h1>
+    <BaseInput v-model="form.username" label="Username" type="text" required />
+    <BaseInput v-model="form.password" label="Password" type="password" required />
+    <BaseButton custom-class="btn-primary mt-3" type="submit" :disabled="!form.username || !form.password"
+      >Log in</BaseButton
+    >
+    <BaseError v-if="!!errorMsg">{{ errorMsg }}</BaseError>
   </form>
 </template>
 

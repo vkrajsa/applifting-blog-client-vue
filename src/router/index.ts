@@ -1,36 +1,52 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import store from '@/store/index';
+import { createRouter, createWebHistory, RouteParams } from 'vue-router';
+import { isAuth } from '../composable/useAuth';
+
+export type AppRouteNames =
+  | 'index'
+  | 'articles'
+  | 'article-detail'
+  | 'login'
+  | 'articles-admin'
+  | 'article-post'
+  | 'article-edit';
 
 const routes = [
   {
+    name: 'index',
     path: '/',
     redirect: '/articles',
   },
   {
+    name: 'articles',
     path: '/articles',
-    component: () => import('@/views/ArticleList.vue'),
+    component: () => import('@/views/Articles.vue'),
   },
   {
+    name: 'article-detail',
     path: '/articles/:id',
     component: () => import('@/views/ArticleDetail.vue'),
   },
   {
+    name: 'login',
     path: '/login',
     component: () => import('@/views/UserLogin.vue'),
   },
   {
-    path: '/add-article',
-    component: () => import('@/views/ArticleNew.vue'),
+    name: 'articles-admin',
+    path: '/admin/articles',
+    component: () => import('@/views/ArticlesAdmin.vue'),
     meta: { requiresAuth: true },
   },
   {
-    path: '/my-articles',
-    component: () => import('@/views/MyArticles.vue'),
+    name: 'article-post',
+    path: '/admin/add-article',
+    component: () => import('@/views/PostArticle.vue'),
     meta: { requiresAuth: true },
   },
   {
-    path: '/my-articles/:id',
-    component: () => import('@/views/ArticleEdit.vue'),
+    name: 'article-edit',
+    path: '/admin/articles/:id',
+    component: () => import('@/views/EditArticle.vue'),
     meta: { requiresAuth: true },
   },
 ];
@@ -41,11 +57,18 @@ const router = createRouter({
 });
 
 router.beforeEach((to) => {
-  if (to.meta.requiresAuth && !store.getters['user/isLoggedIn']) {
+  if (to.meta.requiresAuth && !isAuth) {
     return {
       path: '/login',
     };
   }
 });
+
+export function routerPush(name: AppRouteNames, params?: RouteParams): ReturnType<typeof router.push> {
+  return router.push({
+    name,
+    params,
+  });
+}
 
 export default router;
