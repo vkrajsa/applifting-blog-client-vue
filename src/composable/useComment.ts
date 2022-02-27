@@ -1,7 +1,8 @@
 import { computed, ref } from 'vue';
 import store from '@/store/index';
+import { PostComment } from '../types/comment';
 import { ArticleList, ArticleDetail } from '../types/article';
-import { postVoteUp, postVoteDown } from '../services/comment';
+import { postComment, postVoteUp, postVoteDown } from '../services/comment';
 import { dispatchNotification } from '../utils/notification';
 
 export function useComment() {
@@ -33,5 +34,14 @@ export function useComment() {
     commentScore.value = score;
   }
 
-  return { upVoted, postVote, commentScore, initScore };
+  async function addComment(commentData: PostComment) {
+    try {
+      const response = await postComment(commentData);
+      console.log('response: ', response);
+    } catch (error) {
+      dispatchNotification(error.response.status);
+    }
+  }
+
+  return { upVoted, postVote, commentScore, initScore, addComment };
 }

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { provide } from 'vue';
 import { useArticles } from '../composable/useArticles';
 import { useRoute } from 'vue-router';
 import ArticleBody from '../components/ArticleBody.vue';
@@ -9,6 +10,8 @@ const route = useRoute();
 const { fetchArticleDetail, articleDetail } = await useArticles();
 
 const article = await fetchArticleDetail(route.params.id);
+
+provide('articleId', article.articleId);
 </script>
 
 <template>

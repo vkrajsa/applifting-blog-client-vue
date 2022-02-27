@@ -7,3 +7,12 @@ export interface Comment {
 }
 
 export type CommentsList = Comment[];
+
+export interface CommentForm {
+  author: string;
+  content: string;
+}
+
+export interface PostComment extends CommentForm {
+  articleId: string;
+}
