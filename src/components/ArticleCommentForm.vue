@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { inject } from 'vue';
+import { inject, defineEmits } from 'vue';
 import BaseInput from '../components/base/BaseInput.vue';
 import BaseButton from '../components/base/BaseButton.vue';
 // import BaseError from '../components/base/BaseError.vue';
-import { CommentForm } from '../types/comment';
+import { CommentForm, Comment } from '../types/comment';
 import { useComment } from '../composable/useComment';
 import { reactive } from 'vue';
 
@@ -15,8 +15,15 @@ const form = reactive<CommentForm>({
   content: '',
 });
 
+interface Emits {
+  (e: 'add-comment', comment: Comment): void;
+}
+
+const emit = defineEmits<Emits>();
+
 async function postForm() {
-  addComment({ articleId, ...form });
+  const result = await addComment({ articleId, ...form });
+  emit('add-comment', result);
 }
 </script>
 
