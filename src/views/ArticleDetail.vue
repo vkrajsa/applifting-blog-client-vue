@@ -1,7 +1,13 @@
-<template>
-  <div class="home">
-    <h1>Article Detail</h1>
-  </div>
-</template>
+<script setup lang="ts">
+import ArticleContent from '../components/ArticleContent.vue';
+</script>
 
-<script></script>
+<template>
+  <!-- HACK, I CAN USE THE ASYNC ONLY IF THE COMPONENT IS WRAPPED IN SUSPENSE -->
+  <Suspense>
+    <template #default>
+      <ArticleContent />
+    </template>
+    <template #fallback> Articles is downloadin....</template>
+  </Suspense>
+</template>
