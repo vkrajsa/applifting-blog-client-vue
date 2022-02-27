@@ -24,6 +24,8 @@ const emit = defineEmits<Emits>();
 async function postForm() {
   const result = await addComment({ articleId, ...form });
   emit('add-comment', result);
+  form.author = '';
+  form.content = '';
 }
 </script>
 
