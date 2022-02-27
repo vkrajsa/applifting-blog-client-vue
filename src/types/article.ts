@@ -1,4 +1,4 @@
-import { CommentsList } from './comment';
+import { Comment } from './comment';
 
 export interface Article {
   articleId: string;
@@ -13,4 +13,7 @@ export interface ArticleList {
   items: Article[];
 }
 
-export interface ArticleDetail extends Article, CommentsList {}
+export interface ArticleDetail extends Article {
+  content: string | null;
+  comments: Comment;
+}

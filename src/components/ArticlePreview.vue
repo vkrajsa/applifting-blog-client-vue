@@ -1,16 +1,13 @@
 <script setup lang="ts">
 import { Article } from '@/types/article';
 import AppLink from '../components/AppLink.vue';
+import { blogAuthor } from '../composable/useArticles';
 
 interface Props {
   article: Article;
 }
 
 const props = defineProps<Props>();
-
-// interface Emits {
-//   (e: 'update', article: Article): void;
-// }
 </script>
 
 <template>
@@ -22,6 +19,7 @@ const props = defineProps<Props>();
       <div class="col-md-8">
         <div class="card-body">
           <!-- TODO: ADD AUTHOR -->
+          {{ blogAuthor }}
           <p class="card-text">
             <small class="text-muted">Created at {{ article.createdAt }}</small>
           </p>
@@ -30,7 +28,7 @@ const props = defineProps<Props>();
             {{ article.perex }}
           </p>
 
-          <AppLink name="article-detail" :params="{ id: article.articleId }">Read more</AppLink>
+          <AppLink name="article" :params="{ id: article.articleId }">Read more</AppLink>
 
           <!-- <AppLink @click="routerPush('article-detail', { id: article.articleId })">Read more</AppLink> -->
           <!-- TODO: ADD COMMENTS -->

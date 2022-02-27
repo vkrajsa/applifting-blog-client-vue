@@ -1,6 +1,7 @@
-import { ref } from 'vue';
-import { ArticleList } from '../types/article';
-import { getArticles } from '../services/article';
+import { computed, ref } from 'vue';
+import store from '@/store/index';
+import { ArticleList, ArticleDetail } from '../types/article';
+import { getArticles, getArticleDetail } from '../services/article';
 import { dispatchNotification } from '../utils/notification';
 
 export async function useArticles() {
@@ -15,5 +16,16 @@ export async function useArticles() {
     }
   }
 
-  return { fetchArticles, articles };
+  async function fetchArticleDetail(id: string) {
+    try {
+      const response = await getArticleDetail(id);
+      return response.data;
+    } catch (error) {
+      dispatchNotification(error.response.status);
+    }
+  }
+
+  return { articles, fetchArticles, fetchArticleDetail };
 }
+
+export const blogAuthor = computed(() => store.getters['user/getTenant']);

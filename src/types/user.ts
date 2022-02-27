@@ -1,6 +1,6 @@
 export interface User {
   user: boolean | null;
-  username: string | null;
+  tenant: string | null;
 }
 
 export interface PostLogin {

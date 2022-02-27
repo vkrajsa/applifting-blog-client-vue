@@ -4,7 +4,7 @@ import { isAuth } from '../composable/useAuth';
 export type AppRouteNames =
   | 'index'
   | 'articles'
-  | 'article-detail'
+  | 'article'
   | 'login'
   | 'articles-admin'
   | 'article-post'
@@ -22,9 +22,9 @@ const routes = [
     component: () => import('@/views/Articles.vue'),
   },
   {
-    name: 'article-detail',
-    path: '/articles/:id',
-    component: () => import('@/views/ArticleDetail.vue'),
+    name: 'article',
+    path: '/article/:id',
+    component: () => import('@/views/Article.vue'),
   },
   {
     name: 'login',
