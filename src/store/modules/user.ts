@@ -12,22 +12,29 @@ export type State = User;
 
 const state: State = {
   user: userStorage.get(),
-  username: '',
+  tenant: null,
 };
 
 const getters = {
   isLoggedIn(state: State) {
     return !!state.user;
   },
+
+  getTenant(state: State) {
+    return state.tenant;
+  },
 };
 
 const mutations: MutationTree<State> = {
+  setTenant(state: State, tenant: string) {
+    state.tenant = tenant;
+  },
+
   setUser(state: State, userData) {
     userStorage.set(userData.user);
     setAuthorizationHeader();
 
     state.user = true;
-    state.username = userData.username;
   },
 
   removeUser() {
@@ -40,13 +47,17 @@ const actions: ActionTree<State, RootState> = {
   async logIn({ commit }, credentials: PostLogin) {
     try {
       const response = await userLogin(credentials);
-      const userData = { user: response.data, username: credentials.username };
+      const userData = response.data;
 
       commit('setUser', userData);
     } catch (error) {
       dispatchNotification(error.response.status);
       throw error;
     }
+  },
+
+  dispatchTenant({ commit }, tenant: string) {
+    commit('setTenant', tenant);
   },
 
   logOut({ commit }) {
