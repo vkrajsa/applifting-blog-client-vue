@@ -28,7 +28,7 @@ const props = defineProps<Props>();
             {{ article.perex }}
           </p>
 
-          <AppLink name="article-detail" :params="{ id: article.articleId }">Read more</AppLink>
+          <AppLink name="article" :params="{ id: article.articleId }">Read more</AppLink>
 
           <!-- <AppLink @click="routerPush('article-detail', { id: article.articleId })">Read more</AppLink> -->
           <!-- TODO: ADD COMMENTS -->
