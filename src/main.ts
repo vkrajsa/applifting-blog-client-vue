@@ -10,9 +10,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const app = createApp({
   created() {
-    if (userStorage.get()) {
-      setAuthorizationHeader();
-    }
     // THIS GETS CALLED IN EVERY REFRESH - SAVE TO LOCALSTORAGE?
     setTenant();
   },
