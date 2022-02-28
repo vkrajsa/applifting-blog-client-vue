@@ -18,6 +18,8 @@ export function setNotificationMessage(statusCode: number): string {
       return 'Invalid password or username.';
     case 401:
       return 'You are not authorized, please log in.';
+    case 403:
+      return 'You are not authorized, please try to log in again.';
     case 404:
       return 'We couldnt find the page you are looking for.';
     default:
