@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, computed } from 'vue';
 import { PostArticle } from '@/types/article';
 import MarkdownEditor from '../components/MarkdownEditor.vue';
 import BaseInput from '../components/base/BaseInput.vue';
+import BaseButton from '../components/base/BaseButton.vue';
 
 const form = reactive<PostArticle>({
   title: '',
@@ -10,11 +11,16 @@ const form = reactive<PostArticle>({
   perex: null,
   imageId: null,
 });
+
+const formValidation = computed((): boolean => {
+  return form.title && form.content ? true : false;
+});
 </script>
 
 <template>
   <form @submit.prevent="postForm">
     <BaseInput v-model="form.title" label="Title" type="text" required />
     <MarkdownEditor v-model="form.content"> </MarkdownEditor>
+    <BaseButton custom-class="btn-primary mt-3" type="submit" :disabled="!formValidation">Post article</BaseButton>
   </form>
 </template>
