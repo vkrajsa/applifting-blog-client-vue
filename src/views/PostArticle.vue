@@ -1,7 +1,11 @@
+<script setup>
+import ArticleForm from '../components/ArticleForm';
+</script>
 <template>
-  <div class="home">
-    <h1>New Article</h1>
-  </div>
+  <Suspense>
+    <template #default>
+      <ArticleForm />
+    </template>
+    <template #fallback> Article form is downloading...</template>
+  </Suspense>
 </template>
-
-<script></script>
