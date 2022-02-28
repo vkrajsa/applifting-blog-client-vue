@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { reactive, computed } from 'vue';
 import { PostArticle } from '@/types/article';
+import { postArticleForm } from '../composable/useArticles';
+
 import MarkdownEditor from '../components/MarkdownEditor.vue';
 import BaseInput from '../components/base/BaseInput.vue';
 import BaseButton from '../components/base/BaseButton.vue';
+
+// const { postArticleForm } = await useArticles();
 
 const form = reactive<PostArticle>({
   title: '',
@@ -15,6 +19,10 @@ const form = reactive<PostArticle>({
 const formValidation = computed((): boolean => {
   return form.title && form.content ? true : false;
 });
+
+async function postForm() {
+  postArticleForm(form);
+}
 </script>
 
 <template>

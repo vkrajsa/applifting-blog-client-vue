@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue';
 import store from '@/store/index';
-import { ArticleList, ArticleDetail } from '../types/article';
-import { getArticles, getArticleDetail } from '../services/article';
+import { ArticleList, ArticleDetail, PostArticle } from '../types/article';
+import { getArticles, getArticleDetail, postArticle } from '../services/article';
 import { dispatchNotification } from '../utils/notification';
 
 export async function useArticles() {
@@ -26,6 +26,15 @@ export async function useArticles() {
   }
 
   return { articles, fetchArticles, fetchArticleDetail };
+}
+
+export async function postArticleForm(article: PostArticle) {
+  try {
+    const response = await postArticle(article);
+    return response.data;
+  } catch (error) {
+    dispatchNotification(error.response.status);
+  }
 }
 
 export const blogAuthor = computed(() => store.getters['user/getTenant']);
