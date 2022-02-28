@@ -17,3 +17,10 @@ export interface ArticleDetail extends Article {
   content: string | null;
   comments: Comment;
 }
+
+export interface PostArticle {
+  title: string;
+  content: string;
+  perex: string | null;
+  imageId: string | null;
+}
