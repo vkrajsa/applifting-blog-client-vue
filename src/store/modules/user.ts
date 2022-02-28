@@ -10,8 +10,8 @@ export const userStorage = new Storage<User>('user');
 
 export type State = User;
 
-const state: State = {
-  user: userStorage.get(),
+const state = {
+  user: !!userStorage.get(),
   tenant: null,
 };
 
@@ -31,7 +31,7 @@ const mutations: MutationTree<State> = {
   },
 
   setUser(state: State, userData) {
-    userStorage.set(userData.user);
+    userStorage.set(userData);
     setAuthorizationHeader();
 
     state.user = true;
