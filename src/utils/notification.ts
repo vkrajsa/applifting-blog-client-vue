@@ -14,6 +14,8 @@ export class CustomNotification {
 
 export function setNotificationMessage(statusCode: number): string {
   switch (statusCode) {
+    case 200:
+      return 'Success, all went well.';
     case 400:
       return 'Invalid password or username.';
     case 401:
@@ -27,8 +29,8 @@ export function setNotificationMessage(statusCode: number): string {
   }
 }
 
-export function dispatchNotification(statusCode: number): void {
-  const message = setNotificationMessage(statusCode);
+export function dispatchNotification(statusCode: number, customMessage?: string): void {
+  const message = customMessage ?? setNotificationMessage(statusCode);
 
   store.dispatch('notifications/add', new CustomNotification(message, statusCode, _uniqueId()), { root: true });
 }
