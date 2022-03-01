@@ -9,6 +9,10 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+
+function editArticle(): void {
+  routerPush('article-edit', { id: props.article.articleId });
+}
 </script>
 
 <template>
@@ -17,7 +21,7 @@ const props = defineProps<Props>();
     <td>{{ props.article.perex }}</td>
     <td>{{ blogAuthor }}</td>
     <td>
-      <BaseButton>EDIT</BaseButton>
+      <BaseButton @click="editArticle()">EDIT</BaseButton>
       <BaseButton>DELETE</BaseButton>
     </td>
   </tr>
