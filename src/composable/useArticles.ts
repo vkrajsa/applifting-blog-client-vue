@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue';
 import store from '@/store/index';
 import { ArticleDetail, PostArticle, Article } from '../types/article';
-import { getArticles, getArticleDetail, postArticle, deleteArticle } from '../services/article';
+import { getArticles, getArticleDetail, postArticle, deleteArticle, putArticle } from '../services/article';
 import { dispatchNotification } from '../utils/notification';
 
 export function useArticles() {
@@ -29,7 +29,6 @@ export function useArticles() {
     try {
       return await deleteArticle(id);
     } catch (error) {
-      console.log(error);
       dispatchNotification(error.response.status);
     }
   }
@@ -45,10 +44,19 @@ export function useArticles() {
   return { articles, fetchArticles, fetchArticleDetail, destroyArticle, updateArticles };
 }
 
-export async function postArticleForm(article: PostArticle) {
+// TODO: putArticle must have id , but its optional in outer postArticleForm fn, how to write it?
+export async function postArticleForm(article: PostArticle, id?: string | any) {
   try {
-    const response = await postArticle(article);
-    return response.data;
+    let response: any = {};
+    let message = '';
+    if (id) {
+      response = await putArticle(id, article);
+      message = 'Article was updated!';
+    } else {
+      response = await postArticle(article);
+      message = 'Article was created!';
+    }
+    dispatchNotification(response.status, message);
   } catch (error) {
     dispatchNotification(error.response.status);
   }

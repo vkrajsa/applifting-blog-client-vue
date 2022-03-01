@@ -5,7 +5,7 @@ import ArticleForm from '../components/ArticleForm';
   <!-- must use suspense if there is top level await inside of a component (ArticleForm) -->
   <Suspense>
     <template #default>
-      <ArticleForm :edit="true" />
+      <ArticleForm :isEdit="true" />
     </template>
     <template #fallback> Articles are downloading...</template>
   </Suspense>
