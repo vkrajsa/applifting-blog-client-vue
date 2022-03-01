@@ -4,7 +4,7 @@ import { useArticles } from '../composable/useArticles';
 import { useRoute } from 'vue-router';
 import { Comment } from '@/types/comment';
 import ArticleBody from '../components/ArticleBody.vue';
-import ArticleComments from '../components/ArticleComments.vue';
+import ArticleCommentList from '../components/ArticleCommentList.vue';
 import router from '../router/index';
 
 const route = useRoute();
@@ -20,5 +20,5 @@ provide('articleId', article.articleId);
 
 <template>
   <ArticleBody :article="article" />
-  <ArticleComments />
+  <ArticleCommentList />
 </template>

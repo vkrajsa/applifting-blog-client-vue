@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useArticles } from '../composable/useArticles';
-import ArticleTableRow from './ArticleTableRow.vue';
+import AdminTableRow from './AdminTableRow.vue';
 
 const { articles, fetchArticles, destroyArticle, updateArticles } = await useArticles();
 await fetchArticles();
@@ -24,7 +24,7 @@ const removeArticle = async (id: string) => {
           <th scope="col">Actions</th>
         </tr>
       </thead>
-      <ArticleTableRow
+      <AdminTableRow
         v-for="article in articles"
         :key="article.articleId"
         :article="article"

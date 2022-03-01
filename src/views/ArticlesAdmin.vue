@@ -1,7 +1,12 @@
 <script setup lang="ts">
-import ArticleTable from '../components/ArticleTable.vue';
+import AdminTable from '../components/AdminTable.vue';
 </script>
 
 <template>
-  <ArticleTable />
+  <Suspense>
+    <template #default>
+      <AdminTable />
+    </template>
+    <template #fallback> Articles are downloading...</template>
+  </Suspense>
 </template>
