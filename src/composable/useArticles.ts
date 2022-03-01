@@ -1,11 +1,11 @@
 import { computed, ref } from 'vue';
 import store from '@/store/index';
-import { ArticleList, ArticleDetail, PostArticle } from '../types/article';
-import { getArticles, getArticleDetail, postArticle } from '../services/article';
+import { ArticleDetail, PostArticle, Article } from '../types/article';
+import { getArticles, getArticleDetail, postArticle, deleteArticle } from '../services/article';
 import { dispatchNotification } from '../utils/notification';
 
-export async function useArticles() {
-  const articles = ref<ArticleList[]>([]);
+export function useArticles() {
+  const articles = ref<Article[]>([]);
 
   async function fetchArticles() {
     try {
@@ -25,7 +25,24 @@ export async function useArticles() {
     }
   }
 
-  return { articles, fetchArticles, fetchArticleDetail };
+  async function destroyArticle(id: string) {
+    try {
+      return await deleteArticle(id);
+    } catch (error) {
+      console.log(error);
+      dispatchNotification(error.response.status);
+    }
+  }
+
+  const updateArticles = (id: string): void => {
+    const filteredArticles = articles.value.filter((article) => {
+      return article.articleId !== id;
+    });
+
+    articles.value = filteredArticles;
+  };
+
+  return { articles, fetchArticles, fetchArticleDetail, destroyArticle, updateArticles };
 }
 
 export async function postArticleForm(article: PostArticle) {

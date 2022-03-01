@@ -9,10 +9,6 @@ export interface Article {
   lastUpdatedAt: string[];
 }
 
-export interface ArticleList {
-  items: Article[];
-}
-
 export interface ArticleDetail extends Article {
   content: string | null;
   comments: Comment;

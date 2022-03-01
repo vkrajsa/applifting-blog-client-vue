@@ -2,9 +2,15 @@
 import { useArticles } from '../composable/useArticles';
 import ArticleTableRow from './ArticleTableRow.vue';
 
-const { articles, fetchArticles } = await useArticles();
-
+const { articles, fetchArticles, destroyArticle, updateArticles } = await useArticles();
 await fetchArticles();
+
+const removeArticle = async (id: string) => {
+  const result = await destroyArticle(id);
+  if (result) {
+    updateArticles(id);
+  }
+};
 </script>
 
 <template>
@@ -18,7 +24,12 @@ await fetchArticles();
           <th scope="col">Actions</th>
         </tr>
       </thead>
-      <ArticleTableRow v-for="article in articles" :key="article.articleId" :article="article" />
+      <ArticleTableRow
+        v-for="article in articles"
+        :key="article.articleId"
+        :article="article"
+        @remove-article="removeArticle"
+      />
     </table>
   </div>
 </template>
