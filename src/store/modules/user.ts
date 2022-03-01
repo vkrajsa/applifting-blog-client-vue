@@ -17,7 +17,7 @@ const state = {
 
 const getters = {
   isLoggedIn(state: State) {
-    return !!state.user;
+    return state.user;
   },
 
   getTenant(state: State) {
