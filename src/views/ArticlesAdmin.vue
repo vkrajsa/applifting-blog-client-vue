@@ -1,7 +1,7 @@
-<template>
-  <div class="home">
-    <h1>My Articles</h1>
-  </div>
-</template>
+<script setup lang="ts">
+import ArticleTable from '../components/ArticleTable.vue';
+</script>
 
-<script></script>
+<template>
+  <ArticleTable />
+</template>
