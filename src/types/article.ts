@@ -9,11 +9,14 @@ export interface Article {
   lastUpdatedAt: string[];
 }
 
-export interface ArticleList {
-  items: Article[];
-}
-
 export interface ArticleDetail extends Article {
   content: string | null;
   comments: Comment;
+}
+
+export interface PostArticle {
+  title: string;
+  content: string;
+  perex: string | null;
+  imageId: string | null;
 }

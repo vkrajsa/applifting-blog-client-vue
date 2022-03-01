@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue';
 import store from '@/store/index';
 import { PostComment } from '../types/comment';
-import { ArticleList, ArticleDetail } from '../types/article';
+import { ArticleDetail } from '../types/article';
 import { postComment, postVoteUp, postVoteDown } from '../services/comment';
 import { dispatchNotification } from '../utils/notification';
 

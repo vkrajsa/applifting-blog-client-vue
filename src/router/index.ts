@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, RouteParams } from 'vue-router';
-import { isAuth } from '../composable/useAuth';
+// import { isAuth } from '../utils/auth';
+import store from '@/store/index';
 
 export type AppRouteNames =
   | 'index'
@@ -56,7 +57,9 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to) => {
+router.beforeEach(async (to) => {
+  const isAuth = store.getters['user/isLoggedIn'];
+
   if (to.meta.requiresAuth && !isAuth) {
     return {
       path: '/login',

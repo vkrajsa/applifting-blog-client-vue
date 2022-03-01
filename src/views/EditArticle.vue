@@ -1,7 +1,12 @@
+<script setup>
+import ArticleForm from '../components/ArticleForm';
+</script>
 <template>
-  <div class="home">
-    <h1>Edit Article</h1>
-  </div>
+  <!-- must use suspense if there is top level await inside of a component (ArticleForm) -->
+  <Suspense>
+    <template #default>
+      <ArticleForm :isEdit="true" />
+    </template>
+    <template #fallback> Articles are downloading...</template>
+  </Suspense>
 </template>
-
-<script></script>

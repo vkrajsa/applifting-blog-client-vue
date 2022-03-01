@@ -8,7 +8,7 @@ export default class Storage<T = unknown> {
   get() {
     try {
       const token = localStorage.getItem(this.key) ?? '';
-      return !!token;
+      return JSON.parse(token);
     } catch (error) {
       return null;
     }

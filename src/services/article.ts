@@ -1,5 +1,5 @@
 import api from './api';
-import { Article } from '../types/article';
+import { Article, PostArticle } from '../types/article';
 
 async function getArticles(isAdmin = false) {
   return await api.get(`/articles`, { withCredentials: isAdmin });
@@ -9,16 +9,16 @@ async function getArticleDetail(id: string) {
   return await api.get(`/articles/${id}`);
 }
 
-async function postArticle(article: Article) {
+async function postArticle(article: PostArticle) {
   return await api.post(`/articles`, article);
 }
 
-async function updateArticle(id: string, article: Article) {
-  return await api.put(`/articles/${id}`, article);
+async function putArticle(id: string, article: PostArticle) {
+  return await api.patch(`/articles/${id}`, article);
 }
 
 async function deleteArticle(id: string) {
   return await api.delete(`/articles/${id}`);
 }
 
-export { getArticles, postArticle, getArticleDetail, updateArticle, deleteArticle };
+export { getArticles, postArticle, getArticleDetail, putArticle, deleteArticle };
