@@ -70,6 +70,7 @@ function postForm() {
 <template>
   <form @submit.prevent="postForm">
     <BaseInput v-model="form.title" label="Title" type="text" required />
+    <BaseInput v-model="form.perex" label="Perex" type="text" required />
     <ImageUpload @getFile="getImage"></ImageUpload>
     <MarkdownEditor v-model="form.content"> </MarkdownEditor>
     <BaseButton custom-class="btn-primary mt-3" type="submit" :disabled="!formValidation">Post article</BaseButton>
