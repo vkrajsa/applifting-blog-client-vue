@@ -7,6 +7,7 @@ import { setTenant } from './utils/tenant';
 import { userStorage } from './store/modules/user';
 import markdownEditor from './markdown-config';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './assets/styles/app.scss';
 
 const app = createApp({
   created() {
