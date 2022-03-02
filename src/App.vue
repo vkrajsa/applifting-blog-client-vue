@@ -8,7 +8,7 @@ export default {
 </script>
 
 <template>
-  <div id="main">
+  <div id="main" class="container">
     <AppNotifications />
     <AppNavigation />
     <router-view v-slot="{ Component }">
