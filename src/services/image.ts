@@ -1,16 +1,13 @@
 import api from './api';
 
-async function postImg(img: string) {
-  const response = await api.post(`/images`, img);
-  console.log('response: ', response);
+export async function postImg(img: File) {
+  return await api.post(`/images`, img);
 }
 
-async function getImg(imgId: string) {
-  const response = await api.get(`/images/${imgId}`);
-  console.log('response: ', response);
+export async function getImg(imgId: string) {
+  return await api.get(`/images/${imgId}`);
 }
 
-async function deleteImg(imgId: string) {
-  const response = await api.delete(`/images/${imgId}`);
-  console.log('response: ', response);
+export async function deleteImg(imgId: string) {
+  return await api.delete(`/images/${imgId}`);
 }
