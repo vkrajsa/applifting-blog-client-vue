@@ -48,7 +48,7 @@ if (props.isEdit) {
 }
 
 const formValidation = computed((): boolean => {
-  return form.title && form.content && image.value ? true : false;
+  return form.title && form.content && form.perex && image ? true : false;
 });
 
 async function uploadImage() {
@@ -56,14 +56,21 @@ async function uploadImage() {
   data.append('image', image.value);
 
   try {
-    const imgUpload = await postImg(data);
+    return await postImg(data);
   } catch (error) {
     dispatchNotification(undefined, 'Error while uploading image');
   }
 }
 
-function postForm() {
-  postArticleForm(form, editArticleId);
+async function postForm() {
+  const uploadedImage = await uploadImage();
+
+  if (!uploadedImage) return;
+
+  form.imageId = uploadedImage.data[0].imageId;
+
+  const result = await postArticleForm(form, editArticleId);
+  // I handle errors in composable, i should probaly delete Image if uploaded, if the post form fails for some reason.
 }
 </script>
 
