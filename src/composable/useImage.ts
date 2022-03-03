@@ -20,5 +20,17 @@ export const useImage = () => {
     }
   }
 
-  return { imageUrl, loader, downloadImage };
+  async function removeImage(id: string) {
+    try {
+      loader.value = true;
+      const image = await deleteImg(id);
+      imageUrl.value = null;
+    } catch (error) {
+      dispatchNotification(error.response.status);
+    } finally {
+      loader.value = false;
+    }
+  }
+
+  return { imageUrl, loader, downloadImage, removeImage };
 };
