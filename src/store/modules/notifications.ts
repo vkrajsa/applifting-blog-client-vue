@@ -12,8 +12,8 @@ const state: State = {
 
 const mutations: MutationTree<State> = {
   pushNotification(state, notification) {
-    // maximum notifications on screen set to 3
-    if (state.notifications.length > 2) {
+    // one notification displayed at a time
+    if (state.notifications.length > 0) {
       state.notifications.shift();
     }
     state.notifications.push(notification);

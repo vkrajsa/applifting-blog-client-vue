@@ -30,11 +30,9 @@ ul {
 
 .notification {
   &-wrapper {
-    position: fixed;
     width: 100%;
+    height: 50px;
     margin: 0 auto;
-    pointer-events: none;
-    z-index: 5;
   }
 
   &-move,

@@ -9,8 +9,8 @@ export default {
 
 <template>
   <div id="main" class="container">
-    <AppNotifications />
     <AppNavigation />
+    <AppNotifications />
     <router-view v-slot="{ Component }">
       <component :is="Component" />
     </router-view>
