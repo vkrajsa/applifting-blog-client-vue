@@ -29,10 +29,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    fetchedImage: {
+      type: String,
+      default: null,
+    },
   },
   data() {
     return {
-      imgPreview: null,
+      imgPreview: this.fetchedImage ?? null,
     };
   },
   methods: {
@@ -47,5 +51,6 @@ export default {
 .card {
   width: 150px;
   height: 150px;
+  // object-fit: cover;
 }
 </style>

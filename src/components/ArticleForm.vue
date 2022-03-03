@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { reactive, computed, ref } from 'vue';
+import { reactive, ref, computed } from 'vue';
 import { PostArticle } from '@/types/article';
 import { postImg } from '@/services/image';
 import { dispatchNotification } from '../utils/notification';
-import { postArticleForm } from '../composable/useArticles';
-import { useArticles } from '../composable/useArticles';
+import { postArticleForm, useArticles } from '../composable/useArticles';
+import { useImage } from '../composable/useImage';
 import { useRoute } from 'vue-router';
 import router from '../router/index';
 
@@ -14,6 +14,7 @@ import BaseInput from '../components/base/BaseInput.vue';
 import BaseButton from '../components/base/BaseButton.vue';
 
 const { fetchArticleDetail } = useArticles();
+const { loader, imageUrl, downloadImage } = useImage();
 
 interface Props {
   isEdit?: boolean;
@@ -29,10 +30,10 @@ const form = reactive<PostArticle>({
   imageId: null,
 });
 
-const image = ref<Image>(null);
+const fileImage = ref<Image>(null);
 
-const getImage = (file: File) => {
-  image.value = file;
+const getFile = (file: File) => {
+  fileImage.value = file;
 };
 
 if (props.isEdit) {
@@ -41,19 +42,21 @@ if (props.isEdit) {
   // const fetchImage = await
   form.title = article.title;
   form.content = article.content;
-  // form.imageId = article.imageId;
-  // form.perex = article.perex;
-  // image.value = fetchImageResult
+  form.imageId = article.imageId;
+  form.perex = article.perex;
   editArticleId = article.articleId;
+
+  // TODO: get rid of await and use watcheffect and lazy load the image
+  await downloadImage(article.imageId);
 }
 
 const formValidation = computed((): boolean => {
-  return form.title && form.content && form.perex && image ? true : false;
+  return form.title && form.content && form.perex && fileImage ? true : false;
 });
 
 async function uploadImage() {
   const data = new FormData();
-  data.append('image', image.value);
+  data.append('image', fileImage.value);
 
   try {
     return await postImg(data);
@@ -78,7 +81,7 @@ async function postForm() {
   <form @submit.prevent="postForm">
     <BaseInput v-model="form.title" label="Title" type="text" required />
     <BaseInput v-model="form.perex" label="Perex" type="text" required />
-    <ImageUpload @getFile="getImage"></ImageUpload>
+    <ImageUpload @getFile="getFile" :fetchedImage="imageUrl"></ImageUpload>
     <MarkdownEditor v-model="form.content"> </MarkdownEditor>
     <BaseButton custom-class="btn-primary mt-3" type="submit" :disabled="!formValidation">Post article</BaseButton>
   </form>
