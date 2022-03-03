@@ -2,19 +2,25 @@
 import { Article } from '@/types/article';
 import AppLink from '../components/AppLink.vue';
 import { blogAuthor } from '../composable/useArticles';
+import { useImage } from '../composable/useImage';
 
 interface Props {
   article: Article;
 }
 
+const { imageUrl, downloadImage } = await useImage();
+
 const props = defineProps<Props>();
+
+// ommiting await here, i will display placeholder image
+downloadImage(props.article.imageId);
 </script>
 
 <template>
   <div class="card mb-3">
     <div class="row g-0">
-      <div class="col-md-4">
-        <img src="" class="img-fluid rounded-start" alt="" />
+      <div class="col-md-4 img-container">
+        <img :src="imageUrl" class="img-fluid rounded-start" alt="" width="200" height="200" />
       </div>
       <div class="col-md-8">
         <div class="card-body">
@@ -38,3 +44,13 @@ const props = defineProps<Props>();
     </div>
   </div>
 </template>
+
+<style>
+.card {
+  height: 200px;
+}
+img {
+  width: 200px;
+  height: 200px;
+}
+</style>
