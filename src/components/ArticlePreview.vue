@@ -12,7 +12,7 @@ interface Props {
   article: Article;
 }
 
-const { imageUrl, downloadImage, loader } = await useImage();
+const { imageUrl, downloadImage, imageLoader } = await useImage();
 
 const props = defineProps<Props>();
 // ommiting await here, i will display placeholder image
@@ -24,7 +24,7 @@ downloadImage(props.article.imageId);
     <div class="col-md-6">
       <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
         <div class="col-auto d-none d-lg-block">
-          <ImagePlaceholder v-if="loader" width="200" height="200">
+          <ImagePlaceholder v-if="imageLoader" width="200" height="200">
             <BaseLoader color="text-light" />
           </ImagePlaceholder>
           <BaseImage v-else :url="imageUrl" width="200" height="200" />
