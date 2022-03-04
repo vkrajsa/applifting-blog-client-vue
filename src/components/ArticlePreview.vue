@@ -1,38 +1,43 @@
 <script setup lang="ts">
 import { Article } from '@/types/article';
 import AppLink from '../components/AppLink.vue';
-import { blogAuthor } from '../composable/useArticles';
+import BaseLoader from '../components/base/BaseLoader.vue';
+import BaseImage from '../components/base/BaseImage.vue';
+import BaseButton from '../components/base/BaseButton.vue';
+
+import ImagePlaceholder from '../components/ImagePlaceholder.vue';
+import { useImage } from '../composable/useImage';
 
 interface Props {
   article: Article;
 }
 
+const { imageUrl, downloadImage, imageLoader } = await useImage();
+
 const props = defineProps<Props>();
+// ommiting await here, i will display placeholder image
+downloadImage(props.article.imageId);
 </script>
 
 <template>
-  <div class="card mb-3">
-    <div class="row g-0">
-      <div class="col-md-4">
-        <img src="" class="img-fluid rounded-start" alt="" />
-      </div>
-      <div class="col-md-8">
-        <div class="card-body">
-          <!-- TODO: ADD AUTHOR -->
-          {{ blogAuthor }}
-          <p class="card-text">
-            <small class="text-muted">Created at {{ article.createdAt }}</small>
-          </p>
-          <h5 class="card-title">{{ article.title }}</h5>
-          <p class="card-text">
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-6">
+      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col-auto d-none d-lg-block">
+          <ImagePlaceholder v-if="imageLoader" width="200" height="200">
+            <BaseLoader color="text-light" />
+          </ImagePlaceholder>
+          <BaseImage v-else :url="imageUrl" width="200" height="200" />
+        </div>
+        <div class="col p-4 d-flex flex-column position-static">
+          <h3 class="mb-0">{{ article.title }}</h3>
+          <div class="mb-1 text-muted">{{ article.createdAt }}</div>
+          <p class="card-text mb-auto">
             {{ article.perex }}
           </p>
-
-          <AppLink name="article" :params="{ id: article.articleId }">Read more</AppLink>
-
-          <!-- <AppLink @click="routerPush('article-detail', { id: article.articleId })">Read more</AppLink> -->
-          <!-- TODO: ADD COMMENTS -->
-          <!-- TODO: ADD DETAIL LINK -->
+          <AppLink name="article" :params="{ id: article.articleId }" class="d-flex justify-content-end"
+            ><BaseButton customClass="btn-success"> READ MORE </BaseButton></AppLink
+          >
         </div>
       </div>
     </div>

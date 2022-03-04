@@ -1,6 +1,6 @@
 import api from './api';
 
-export async function postImg(img: File) {
+export async function postImg(img: FormData) {
   return await api.post(`/images`, img);
 }
 

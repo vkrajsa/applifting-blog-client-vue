@@ -6,8 +6,10 @@ import { setAuthorizationHeader } from './utils/auth';
 import { setTenant } from './utils/tenant';
 import { userStorage } from './store/modules/user';
 import markdownEditor from './markdown-config';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './assets/styles/app.scss';
+import FontAwesomeIcon from './utils/fa-icons';
 
 const app = createApp({
   created() {
@@ -16,6 +18,8 @@ const app = createApp({
   },
   render: () => h(App),
 });
+
+app.component('fa-icon', FontAwesomeIcon);
 
 app.use(markdownEditor);
 

@@ -9,7 +9,7 @@ export default {
   },
 
   mounted() {
-    this.timeout = setTimeout(() => this.remove(this.notification), 3000);
+    this.timeout = setTimeout(() => this.remove(this.notification), 5000);
   },
 
   beforeUnmount() {
@@ -18,28 +18,35 @@ export default {
 
   methods: {
     ...mapActions('notifications', ['remove']),
-    // TODO: WHEN I ADD ICONS
-    // close() {
-    //   this.remove(this.notification);
-    // },
+
+    close() {
+      this.remove(this.notification);
+    },
+  },
+
+  computed: {
+    isError() {
+      return this.notification.notificationType === 'error' ? 'alert-danger' : 'alert-success';
+    },
   },
 };
 </script>
 
 <template>
-  <!-- might put it down to right corner so its not so intrusive to user -->
-  <div
-    class="alert alert-warning p-2"
-    :class="[notification.notificationType === 'error' ? 'alert-danger' : 'alert-success']"
-  >
-    {{ notification.message }}
-    <!-- TODO: WHEN I ADD ICONS -->
-    <!-- <button @click="close()">CLICK TO CLOSE</button> -->
+  <div class="alert p-2" :class="isError">
+    <span> {{ notification.message }}</span>
+    <span class="cross float-end" @click="close()"> <fa-icon icon="times" class="cross float-end" /></span>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .alert {
   pointer-events: auto;
+}
+
+.cross {
+  &:hover {
+    cursor: pointer;
+  }
 }
 </style>

@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { reactive, computed, ref } from 'vue';
+import { reactive, ref, computed } from 'vue';
 import { PostArticle } from '@/types/article';
-import { postImg } from '@/services/image';
-import { dispatchNotification } from '../utils/notification';
-import { postArticleForm } from '../composable/useArticles';
 import { useArticles } from '../composable/useArticles';
+import { useImage } from '../composable/useImage';
 import { useRoute } from 'vue-router';
 import router from '../router/index';
 
@@ -13,7 +11,8 @@ import ImageUpload from '../components/ImageUpload.vue';
 import BaseInput from '../components/base/BaseInput.vue';
 import BaseButton from '../components/base/BaseButton.vue';
 
-const { fetchArticleDetail } = useArticles();
+const { fetchArticleDetail, postArticleForm, articleLoader } = useArticles();
+const { postImage, loader, imageUrl, downloadImage, deleteImage, error } = useImage();
 
 interface Props {
   isEdit?: boolean;
@@ -29,57 +28,84 @@ const form = reactive<PostArticle>({
   imageId: null,
 });
 
-const image = ref<Image>(null);
+const imageSelected = ref<Image>(null);
+const imageUploaded = computed(() => {
+  return form.imageId;
+});
 
-const getImage = (file: File) => {
-  image.value = file;
+const getFile = (file: File) => {
+  imageSelected.value = file;
 };
 
 if (props.isEdit) {
   const route = useRoute();
   const article = await fetchArticleDetail(route.params.id);
-  // const fetchImage = await
+
   form.title = article.title;
   form.content = article.content;
-  // form.imageId = article.imageId;
-  // form.perex = article.perex;
-  // image.value = fetchImageResult
+  form.imageId = article.imageId;
+  form.perex = article.perex;
   editArticleId = article.articleId;
+
+  // TODO: get rid of await and use watcheffect and lazy load the image
+  // User might be in edit mode and imageId can be null
+  if (article.imageId) {
+    await downloadImage(article.imageId);
+  }
 }
 
 const formValidation = computed((): boolean => {
-  return form.title && form.content && form.perex && image ? true : false;
+  return form.title && form.content && form.perex && imageUploaded.value ? true : false;
 });
 
 async function uploadImage() {
   const data = new FormData();
-  data.append('image', image.value);
+  data.append('image', imageSelected.value);
 
-  try {
-    return await postImg(data);
-  } catch (error) {
-    dispatchNotification(undefined, 'Error while uploading image');
+  const uploadedImage = await postImage(data);
+
+  if (uploadedImage) {
+    form.imageId = uploadedImage.data[0].imageId;
   }
 }
 
-async function postForm() {
-  const uploadedImage = await uploadImage();
+async function removeImage() {
+  const imageDeleted = await deleteImage(form.imageId);
 
-  if (!uploadedImage) return;
+  if (imageDeleted) {
+    form.imageId = null;
+  }
+}
 
-  form.imageId = uploadedImage.data[0].imageId;
-
-  const result = await postArticleForm(form, editArticleId);
+function postForm() {
+  postArticleForm(form, editArticleId);
   // I handle errors in composable, i should probaly delete Image if uploaded, if the post form fails for some reason.
 }
 </script>
 
 <template>
   <form @submit.prevent="postForm">
-    <BaseInput v-model="form.title" label="Title" type="text" required />
-    <BaseInput v-model="form.perex" label="Perex" type="text" required />
-    <ImageUpload @getFile="getImage"></ImageUpload>
+    <BaseButton custom-class="btn-primary mb-3 float-end" type="submit" :loader="articleLoader">
+      Publish article</BaseButton
+    >
+    <BaseInput class="col col-md-6" v-model="form.title" label="Title" type="text" required />
+    <BaseInput class="col col-md-6" v-model="form.perex" label="Perex" type="text" required />
+
+    <ImageUpload class="col col-md-6 mt-2" @getFile="getFile" :fetchedImage="imageUrl" :error="error">
+      <BaseButton
+        v-if="!imageUploaded"
+        custom-class="btn-success mt-3"
+        @click="uploadImage()"
+        :loader="loader"
+        :disabled="!imageSelected"
+      >
+        Upload image</BaseButton
+      >
+      <BaseButton v-if="imageUploaded" custom-class="btn-danger mt-3" @click="removeImage()" :loader="loader">
+        Delete image
+      </BaseButton>
+    </ImageUpload>
+
     <MarkdownEditor v-model="form.content"> </MarkdownEditor>
-    <BaseButton custom-class="btn-primary mt-3" type="submit" :disabled="!formValidation">Post article</BaseButton>
   </form>
 </template>
