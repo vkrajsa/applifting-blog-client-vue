@@ -84,30 +84,28 @@ function postForm() {
 </script>
 
 <template>
-  <form>
-    <BaseInput v-model="form.title" label="Title" type="text" required />
-    <BaseInput v-model="form.perex" label="Perex" type="text" required />
-    <BaseButton
-      v-if="!imageUploaded"
-      custom-class="btn-success mt-3"
-      @click="uploadImage()"
-      :loader="loader"
-      :disabled="!imageSelected"
+  <form @submit.prevent="postForm">
+    <BaseButton custom-class="btn-primary mb-3 float-end" type="submit" :loader="articleLoader">
+      Publish article</BaseButton
     >
-      Upload image</BaseButton
-    >
-    <BaseButton v-if="imageUploaded" custom-class="btn-danger mt-3" @click="removeImage()" :loader="loader">
-      Delete image
-    </BaseButton>
-    <ImageUpload @getFile="getFile" :fetchedImage="imageUrl" :error="error"></ImageUpload>
+    <BaseInput class="col col-md-6" v-model="form.title" label="Title" type="text" required />
+    <BaseInput class="col col-md-6" v-model="form.perex" label="Perex" type="text" required />
+
+    <ImageUpload class="col col-md-6 mt-2" @getFile="getFile" :fetchedImage="imageUrl" :error="error">
+      <BaseButton
+        v-if="!imageUploaded"
+        custom-class="btn-success mt-3"
+        @click="uploadImage()"
+        :loader="loader"
+        :disabled="!imageSelected"
+      >
+        Upload image</BaseButton
+      >
+      <BaseButton v-if="imageUploaded" custom-class="btn-danger mt-3" @click="removeImage()" :loader="loader">
+        Delete image
+      </BaseButton>
+    </ImageUpload>
+
     <MarkdownEditor v-model="form.content"> </MarkdownEditor>
-    <BaseButton
-      custom-class="btn-primary mt-3"
-      :disabled="formValidation == false"
-      @click="postForm()"
-      :loader="articleLoader"
-    >
-      Post article</BaseButton
-    >
   </form>
 </template>
