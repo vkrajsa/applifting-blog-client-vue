@@ -14,7 +14,7 @@ import BaseInput from '../components/base/BaseInput.vue';
 import BaseButton from '../components/base/BaseButton.vue';
 
 const { fetchArticleDetail } = useArticles();
-const { loader, imageUrl, downloadImage } = useImage();
+const { loader, imageUrl, downloadImage, removeImage, error } = useImage();
 
 interface Props {
   isEdit?: boolean;
@@ -30,16 +30,19 @@ const form = reactive<PostArticle>({
   imageId: null,
 });
 
-const fileImage = ref<Image>(null);
+const imageSelected = ref<Image>(null);
+const imageUploaded = computed(() => {
+  return form.imageId;
+});
 
 const getFile = (file: File) => {
-  fileImage.value = file;
+  imageSelected.value = file;
 };
 
 if (props.isEdit) {
   const route = useRoute();
   const article = await fetchArticleDetail(route.params.id);
-  // const fetchImage = await
+
   form.title = article.title;
   form.content = article.content;
   form.imageId = article.imageId;
@@ -47,32 +50,45 @@ if (props.isEdit) {
   editArticleId = article.articleId;
 
   // TODO: get rid of await and use watcheffect and lazy load the image
-  await downloadImage(article.imageId);
+  // User might be in edit mode and imageId can be null
+  if (article.imageId) {
+    await downloadImage(article.imageId);
+  }
 }
 
 const formValidation = computed((): boolean => {
-  return form.title && form.content && form.perex && fileImage ? true : false;
+  return form.title && form.content && form.perex && imageUploaded.value ? true : false;
 });
 
 async function uploadImage() {
   const data = new FormData();
-  data.append('image', fileImage.value);
+  data.append('image', imageSelected.value);
 
   try {
-    return await postImg(data);
+    const uploadedImage = await postImg(data);
+
+    form.imageId = uploadedImage.data[0].imageId;
+
+    dispatchNotification(200, 'Image uploaded to the server. Click publish to save article changed.');
   } catch (error) {
     dispatchNotification(undefined, 'Error while uploading image');
   }
 }
 
+async function deleteImage() {
+  try {
+    await removeImage(form.imageId);
+
+    form.imageId = null;
+
+    dispatchNotification(200, 'Image deleted from the server.');
+  } catch (error) {
+    dispatchNotification(undefined, 'Error while deleting image');
+  }
+}
+
 async function postForm() {
-  const uploadedImage = await uploadImage();
-
-  if (!uploadedImage) return;
-
-  form.imageId = uploadedImage.data[0].imageId;
-
-  const result = await postArticleForm(form, editArticleId);
+  await postArticleForm(form, editArticleId);
   // I handle errors in composable, i should probaly delete Image if uploaded, if the post form fails for some reason.
 }
 </script>
@@ -81,8 +97,14 @@ async function postForm() {
   <form @submit.prevent="postForm">
     <BaseInput v-model="form.title" label="Title" type="text" required />
     <BaseInput v-model="form.perex" label="Perex" type="text" required />
-    <ImageUpload @getFile="getFile" :fetchedImage="imageUrl"></ImageUpload>
+    <BaseButton v-if="!imageUploaded" custom-class="btn-success mt-3" @click="uploadImage()" :disabled="!imageSelected"
+      >Upload image</BaseButton
+    >
+    <BaseButton v-if="imageUploaded" custom-class="btn-danger mt-3" @click="deleteImage()">Delete image</BaseButton>
+    <ImageUpload @getFile="getFile" :fetchedImage="imageUrl" :error="error"></ImageUpload>
     <MarkdownEditor v-model="form.content"> </MarkdownEditor>
-    <BaseButton custom-class="btn-primary mt-3" type="submit" :disabled="!formValidation">Post article</BaseButton>
+    <BaseButton custom-class="btn-primary mt-3" type="submit" :disabled="formValidation == false"
+      >Post article</BaseButton
+    >
   </form>
 </template>

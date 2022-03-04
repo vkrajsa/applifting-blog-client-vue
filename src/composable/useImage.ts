@@ -5,7 +5,7 @@ import { dispatchNotification } from '../utils/notification';
 
 export const useImage = () => {
   const imageUrl: Ref<string | null> = ref(null);
-  // const error = ref(nTull);
+  const error: Ref<string | null> = ref(null);
   const loader: Ref<boolean | null> = ref(null);
 
   async function downloadImage(id: string) {
@@ -14,7 +14,8 @@ export const useImage = () => {
       const image = await getImg(id);
       imageUrl.value = URL.createObjectURL(image.data);
     } catch (error) {
-      dispatchNotification(error.response.status);
+      // TODO: DISPLAY ERROR IN IMAGE COMPONENT IF THE IMAGE WAS NOT LOADED PROPERLY.
+      error.value = 'Failed to load image';
     } finally {
       loader.value = false;
     }
@@ -23,7 +24,9 @@ export const useImage = () => {
   async function removeImage(id: string) {
     try {
       loader.value = true;
+
       const image = await deleteImg(id);
+
       imageUrl.value = null;
     } catch (error) {
       dispatchNotification(error.response.status);
