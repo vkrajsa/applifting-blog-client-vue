@@ -1,4 +1,4 @@
-import { computed, ref } from 'vue';
+import { computed, ref, Ref } from 'vue';
 import store from '@/store/index';
 import { ArticleDetail, PostArticle, Article } from '../types/article';
 import { getArticles, getArticleDetail, postArticle, deleteArticle, putArticle } from '../services/article';
@@ -6,6 +6,7 @@ import { dispatchNotification } from '../utils/notification';
 
 export function useArticles() {
   const articles = ref<Article[]>([]);
+  const articleLoader: Ref<boolean | null> = ref(null);
 
   async function fetchArticles() {
     try {
@@ -41,25 +42,36 @@ export function useArticles() {
     articles.value = filteredArticles;
   };
 
-  return { articles, fetchArticles, fetchArticleDetail, destroyArticle, updateArticles };
-}
+  async function postArticleForm(article: PostArticle, id?: string | any) {
+    try {
+      articleLoader.value = true;
 
-// TODO: putArticle must have id , but its optional in outer postArticleForm fn, how to write it?
-export async function postArticleForm(article: PostArticle, id?: string | any) {
-  try {
-    let response: any = {};
-    let message = '';
-    if (id) {
-      response = await putArticle(id, article);
-      message = 'Article was updated!';
-    } else {
-      response = await postArticle(article);
-      message = 'Article was created!';
+      let response: any = {};
+      let message = '';
+      if (id) {
+        response = await putArticle(id, article);
+        message = 'Article was updated!';
+      } else {
+        response = await postArticle(article);
+        message = 'Article was created!';
+      }
+      dispatchNotification(response.status, message);
+    } catch (error) {
+      dispatchNotification(error.response.status);
+    } finally {
+      articleLoader.value = false;
     }
-    dispatchNotification(response.status, message);
-  } catch (error) {
-    dispatchNotification(error.response.status);
   }
+
+  return {
+    articleLoader,
+    articles,
+    fetchArticles,
+    fetchArticleDetail,
+    destroyArticle,
+    updateArticles,
+    postArticleForm,
+  };
 }
 
 export const blogAuthor = computed(() => store.getters['user/getTenant']);

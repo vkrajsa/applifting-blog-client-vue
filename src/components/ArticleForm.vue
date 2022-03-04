@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { reactive, ref, computed } from 'vue';
 import { PostArticle } from '@/types/article';
-import { postImg } from '@/services/image';
-import { dispatchNotification } from '../utils/notification';
-import { postArticleForm, useArticles } from '../composable/useArticles';
+import { useArticles } from '../composable/useArticles';
 import { useImage } from '../composable/useImage';
 import { useRoute } from 'vue-router';
 import router from '../router/index';
@@ -13,8 +11,8 @@ import ImageUpload from '../components/ImageUpload.vue';
 import BaseInput from '../components/base/BaseInput.vue';
 import BaseButton from '../components/base/BaseButton.vue';
 
-const { fetchArticleDetail } = useArticles();
-const { loader, imageUrl, downloadImage, removeImage, error } = useImage();
+const { fetchArticleDetail, postArticleForm, articleLoader } = useArticles();
+const { postImage, loader, imageUrl, downloadImage, deleteImage, error } = useImage();
 
 interface Props {
   isEdit?: boolean;
@@ -64,47 +62,52 @@ async function uploadImage() {
   const data = new FormData();
   data.append('image', imageSelected.value);
 
-  try {
-    const uploadedImage = await postImg(data);
+  const uploadedImage = await postImage(data);
 
+  if (uploadedImage) {
     form.imageId = uploadedImage.data[0].imageId;
-
-    dispatchNotification(200, 'Image uploaded to the server. Click publish to save article changed.');
-  } catch (error) {
-    dispatchNotification(undefined, 'Error while uploading image');
   }
 }
 
-async function deleteImage() {
-  try {
-    await removeImage(form.imageId);
+async function removeImage() {
+  const imageDeleted = await deleteImage(form.imageId);
 
+  if (imageDeleted) {
     form.imageId = null;
-
-    dispatchNotification(200, 'Image deleted from the server.');
-  } catch (error) {
-    dispatchNotification(undefined, 'Error while deleting image');
   }
 }
 
-async function postForm() {
-  await postArticleForm(form, editArticleId);
+function postForm() {
+  postArticleForm(form, editArticleId);
   // I handle errors in composable, i should probaly delete Image if uploaded, if the post form fails for some reason.
 }
 </script>
 
 <template>
-  <form @submit.prevent="postForm">
+  <form>
     <BaseInput v-model="form.title" label="Title" type="text" required />
     <BaseInput v-model="form.perex" label="Perex" type="text" required />
-    <BaseButton v-if="!imageUploaded" custom-class="btn-success mt-3" @click="uploadImage()" :disabled="!imageSelected"
-      >Upload image</BaseButton
+    <BaseButton
+      v-if="!imageUploaded"
+      custom-class="btn-success mt-3"
+      @click="uploadImage()"
+      :loader="loader"
+      :disabled="!imageSelected"
     >
-    <BaseButton v-if="imageUploaded" custom-class="btn-danger mt-3" @click="deleteImage()">Delete image</BaseButton>
+      Upload image</BaseButton
+    >
+    <BaseButton v-if="imageUploaded" custom-class="btn-danger mt-3" @click="removeImage()" :loader="loader">
+      Delete image
+    </BaseButton>
     <ImageUpload @getFile="getFile" :fetchedImage="imageUrl" :error="error"></ImageUpload>
     <MarkdownEditor v-model="form.content"> </MarkdownEditor>
-    <BaseButton custom-class="btn-primary mt-3" type="submit" :disabled="formValidation == false"
-      >Post article</BaseButton
+    <BaseButton
+      custom-class="btn-primary mt-3"
+      :disabled="formValidation == false"
+      @click="postForm()"
+      :loader="articleLoader"
+    >
+      Post article</BaseButton
     >
   </form>
 </template>
