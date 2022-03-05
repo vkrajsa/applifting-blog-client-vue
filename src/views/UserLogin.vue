@@ -34,9 +34,7 @@ const login = async () => {
     <h1 class="h3 mb-3">Please Log in</h1>
     <BaseInput v-model="form.username" label="Username" type="text" required />
     <BaseInput v-model="form.password" label="Password" type="password" required />
-    <BaseButton custom-class="btn-primary mt-3" type="submit" :disabled="!form.username || !form.password"
-      >Log in</BaseButton
-    >
+    <BaseButton class="btn-primary mt-3" type="submit" :disabled="!form.username || !form.password">Log in</BaseButton>
     <BaseError v-if="!!errorMsg">{{ errorMsg }}</BaseError>
   </form>
 </template>

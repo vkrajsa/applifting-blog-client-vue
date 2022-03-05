@@ -27,7 +27,7 @@ export default {
 </script>
 
 <template>
-  <button class="btn" :class="customClass" :type="type" :disabled="disabled">
+  <button class="btn" :type="type" :disabled="disabled">
     <BaseLoader v-if="loader" />
     <slot />
   </button>
