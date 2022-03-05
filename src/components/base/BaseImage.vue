@@ -13,6 +13,10 @@ export default {
       type: String,
       default: '200',
     },
+    backgroundSize: {
+      type: String,
+      default: 'cover',
+    },
     height: {
       type: String,
       default: '200',
@@ -26,6 +30,7 @@ export default {
         '--width': this.width + 'px',
         '--height': this.height + 'px',
         '--url': 'url(' + this.url + ')',
+        '--background-size': this.backgroundSize,
       };
     },
   },
@@ -35,7 +40,7 @@ export default {
 <template>
   <div class="wrapper" :style="cssAttrs">
     <!-- USED BACGKROUND IMG TO GET CONSISTENCY IN PREVIEW MIGHT USE IMG LATER-->
-    <!-- <img :src="url" class="img-fluid rounded-start" :alt="alt" :width="width" :height="height" /> -->
+    <img :src="url" class="img-fluid rounded-start" :alt="alt" :width="width" :height="height" />
   </div>
 </template>
 
@@ -45,6 +50,6 @@ export default {
   height: var(--height);
   background-image: var(--url);
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: var(--background-size);
 }
 </style>
