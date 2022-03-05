@@ -9,7 +9,7 @@ export function useComment() {
   // true voted up, false voted down
   // TODO: how to handle if user refreshes the browser and is not registered ?
   // SOLUTION: tell user he already voted if there is null and commentScore doesnt update
-  const upVoted = ref<null | boolean>(null);
+  const voteState = ref<null | string>(null);
   const commentLoader: Ref<boolean | null> = ref(null);
   const commentScore = ref();
 
@@ -17,11 +17,11 @@ export function useComment() {
     try {
       if (value === 'up') {
         const response = await postVoteUp(id);
-        upVoted.value = true;
+        voteState.value = 'up';
         commentScore.value = response.data.score;
       } else {
         const response = await postVoteDown(id);
-        upVoted.value = false;
+        voteState.value = 'down';
         commentScore.value = response.data.score;
       }
     } catch (error) {
@@ -46,5 +46,5 @@ export function useComment() {
     }
   }
 
-  return { upVoted, postVote, commentScore, initScore, addComment, commentLoader };
+  return { voteState, postVote, commentScore, initScore, addComment, commentLoader };
 }
