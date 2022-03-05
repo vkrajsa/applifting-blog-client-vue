@@ -36,7 +36,7 @@ downloadImage(props.article.imageId);
             {{ article.perex }}
           </p>
           <AppLink name="article" :params="{ id: article.articleId }" class="d-flex justify-content-end"
-            ><BaseButton customClass="btn-success"> READ MORE </BaseButton></AppLink
+            ><BaseButton class="btn-success"> READ MORE </BaseButton></AppLink
           >
         </div>
       </div>

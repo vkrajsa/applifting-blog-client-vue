@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AdminTable from '../components/AdminTable.vue';
+import TableSkeleton from '../components/TableSkeleton.vue';
 </script>
 
 <template>
@@ -7,6 +8,6 @@ import AdminTable from '../components/AdminTable.vue';
     <template #default>
       <AdminTable />
     </template>
-    <template #fallback> Articles are downloading...</template>
+    <template #fallback> <TableSkeleton /></template>
   </Suspense>
 </template>
