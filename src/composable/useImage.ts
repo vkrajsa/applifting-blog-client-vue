@@ -47,6 +47,7 @@ export const useImage = () => {
 
       imageUrl.value = null;
       dispatchNotification(200, 'Image deleted from the server.');
+      return image;
     } catch (error) {
       dispatchNotification(error.response.status, 'Error while deleting image');
     } finally {

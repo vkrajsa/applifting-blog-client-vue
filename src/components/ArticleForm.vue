@@ -72,9 +72,9 @@ async function uploadImage() {
 
 async function removeImage() {
   const imageDeleted = await deleteImage(form.imageId);
-
   if (imageDeleted) {
     form.imageId = null;
+    imageSelected.value = null;
   }
 }
 
@@ -94,7 +94,7 @@ function postForm() {
     <BaseInput class="col col-md-6" v-model="form.title" label="Title" type="text" required />
     <BaseInput class="col col-md-6" v-model="form.perex" label="Perex" type="text" required />
 
-    <ImageUpload class="col col-md-6 mt-2" @getFile="getFile" :fetchedImage="imageUrl" :error="error">
+    <ImageUpload @getFile="getFile" :fetchedImage="imageUrl" :imageSelected="imageSelected">
       <BaseButton
         v-if="!imageUploaded"
         class="btn-success mt-3"
