@@ -18,8 +18,17 @@ const addComment = async (comment: ArticleComment) => {
 </script>
 
 <template>
-  <ArticleCommentForm @add-comment="addComment" />
-  <ArticleComment v-for="comment in comments" :key="comment.commentId" :comment="comment">
-    {{ comment }}
-  </ArticleComment>
+  <div id="comments">
+    <ArticleCommentForm @add-comment="addComment" />
+    <ArticleComment v-for="comment in comments" :key="comment.commentId" :comment="comment">
+      {{ comment }}
+    </ArticleComment>
+  </div>
 </template>
+
+<style>
+#comments {
+  max-width: 600px;
+  margin: 0 auto;
+}
+</style>

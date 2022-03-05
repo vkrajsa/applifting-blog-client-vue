@@ -10,9 +10,18 @@ const props = defineProps<Props>();
 </script>
 
 <template>
-  <div class="card">
-    <p>{{ props.comment.author }} at {{ props.comment.createdAt }}</p>
-    <p>{{ props.comment.content }}</p>
-    <ArticleCommentCounter :score="props.comment.score" :id="props.comment.commentId"> </ArticleCommentCounter>
+  <div class="card mt-4">
+    <div class="card-header">
+      <span class="fw-bold"> {{ props.comment.author }} </span> {{ props.comment.createdAt }}
+    </div>
+    <div class="card-body">
+      <p class="card-text">{{ props.comment.content }}</p>
+    </div>
+
+    <div class="card-footer">
+      <ArticleCommentCounter :score="props.comment.score" :id="props.comment.commentId"> </ArticleCommentCounter>
+    </div>
   </div>
 </template>
+
+<style lang="scss" scoped></style>
