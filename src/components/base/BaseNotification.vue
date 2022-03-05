@@ -23,17 +23,11 @@ export default {
       this.remove(this.notification);
     },
   },
-
-  computed: {
-    isError() {
-      return this.notification.notificationType === 'error' ? 'alert-danger' : 'alert-success';
-    },
-  },
 };
 </script>
 
 <template>
-  <div class="alert p-2" :class="isError">
+  <div class="alert p-2" :class="this.notification.notificationType()">
     <span> {{ notification.message }}</span>
     <span class="cross float-end" @click="close()"> <fa-icon icon="times" class="cross float-end" /></span>
   </div>

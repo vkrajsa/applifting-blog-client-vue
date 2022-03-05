@@ -2,13 +2,20 @@ import store from '../store/index';
 import _uniqueId from 'lodash/uniqueId';
 
 export class CustomNotification {
-  notificationType: string;
-
   constructor(public message: string, public code: number, public id: string) {
     this.message = message;
     this.code = code;
-    this.notificationType = this.code >= 400 ? 'error' : 'success';
+    // this.notificationType = this.code >= 400 ? 'error' : 'success';
     this.id = id;
+  }
+  notificationType(): string {
+    if (this.code >= 400) {
+      return 'alert-danger';
+    } else if (this.code >= 200) {
+      return 'alert-success';
+    } else {
+      return 'alert-warning';
+    }
   }
 }
 
