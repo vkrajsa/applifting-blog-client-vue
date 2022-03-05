@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ArticleList from '../components/ArticleList.vue';
+import ArticleListSkeleton from '../components/ArticleListSkeleton.vue';
 </script>
 
 <template>
@@ -7,6 +8,6 @@ import ArticleList from '../components/ArticleList.vue';
     <template #default>
       <ArticleList />
     </template>
-    <template #fallback> Articles are downloading...</template>
+    <template #fallback> <ArticleListSkeleton /> </template>
   </Suspense>
 </template>
