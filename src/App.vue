@@ -17,4 +17,8 @@ export default {
   </div>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+.action-icon {
+  cursor: pointer;
+}
+</style>

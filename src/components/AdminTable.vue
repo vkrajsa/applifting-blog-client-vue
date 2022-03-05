@@ -15,7 +15,7 @@ const removeArticle = async (id: string) => {
 
 <template>
   <div class="table-responsive">
-    <table class="table table-striped">
+    <table class="table table-bordered table-striped">
       <thead>
         <tr>
           <th scope="col">Article title</th>
@@ -24,12 +24,14 @@ const removeArticle = async (id: string) => {
           <th scope="col">Actions</th>
         </tr>
       </thead>
-      <AdminTableRow
-        v-for="article in articles"
-        :key="article.articleId"
-        :article="article"
-        @remove-article="removeArticle"
-      />
+      <tbody>
+        <AdminTableRow
+          v-for="article in articles"
+          :key="article.articleId"
+          :article="article"
+          @remove-article="removeArticle"
+        />
+      </tbody>
     </table>
   </div>
 </template>

@@ -4,7 +4,16 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
 
-library.add(faTimesCircle as any, faTimes as any, faChevronDown as any, faChevronUp as any);
+library.add(
+  faTimesCircle as any,
+  faTimes as any,
+  faChevronDown as any,
+  faChevronUp as any,
+  faTrash as any,
+  faPen as any
+);
 
 export default FontAwesomeIcon;
