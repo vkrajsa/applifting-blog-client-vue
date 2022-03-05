@@ -7,7 +7,6 @@
       class="form-control"
       @input="$emit('get-file', $event.target.files[0])"
       @change="setImgPreview"
-      required
     />
   </div>
   <slot></slot>

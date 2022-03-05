@@ -4,6 +4,7 @@ import { PostArticle } from '@/types/article';
 import { useArticles } from '../composable/useArticles';
 import { useImage } from '../composable/useImage';
 import { useRoute } from 'vue-router';
+import { dispatchNotification } from '../utils/notification';
 import router from '../router/index';
 
 import MarkdownEditor from '../components/MarkdownEditor.vue';
@@ -54,8 +55,8 @@ if (props.isEdit) {
   }
 }
 
-const formValidation = computed((): boolean => {
-  return form.title && form.content && form.perex && imageUploaded.value ? true : false;
+const imageValidation = computed((): boolean => {
+  return !!imageUploaded.value;
 });
 
 async function uploadImage() {
@@ -78,6 +79,10 @@ async function removeImage() {
 }
 
 function postForm() {
+  if (!imageValidation.value) {
+    dispatchNotification(undefined, 'You need to upload the image');
+    return;
+  }
   postArticleForm(form, editArticleId);
   // I handle errors in composable, i should probaly delete Image if uploaded, if the post form fails for some reason.
 }
@@ -85,23 +90,21 @@ function postForm() {
 
 <template>
   <form @submit.prevent="postForm">
-    <BaseButton custom-class="btn-primary mb-3 float-end" type="submit" :loader="articleLoader">
-      Publish article</BaseButton
-    >
+    <BaseButton class="btn-primary mb-3 float-end" type="submit" :loader="articleLoader"> Publish article</BaseButton>
     <BaseInput class="col col-md-6" v-model="form.title" label="Title" type="text" required />
     <BaseInput class="col col-md-6" v-model="form.perex" label="Perex" type="text" required />
 
     <ImageUpload class="col col-md-6 mt-2" @getFile="getFile" :fetchedImage="imageUrl" :error="error">
       <BaseButton
         v-if="!imageUploaded"
-        custom-class="btn-success mt-3"
+        class="btn-success mt-3"
         @click="uploadImage()"
         :loader="loader"
         :disabled="!imageSelected"
       >
         Upload image</BaseButton
       >
-      <BaseButton v-if="imageUploaded" custom-class="btn-danger mt-3" @click="removeImage()" :loader="loader">
+      <BaseButton v-if="imageUploaded" class="btn-danger mt-3" @click="removeImage()" :loader="loader">
         Delete image
       </BaseButton>
     </ImageUpload>
