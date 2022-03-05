@@ -13,7 +13,7 @@ import BaseInput from '../components/base/BaseInput.vue';
 import BaseButton from '../components/base/BaseButton.vue';
 
 const { fetchArticleDetail, postArticleForm, articleLoader } = useArticles();
-const { postImage, loader, imageUrl, downloadImage, deleteImage, error } = useImage();
+const { postImage, imageLoader, imageUrl, downloadImage, deleteImage, error } = useImage();
 
 interface Props {
   isEdit?: boolean;
@@ -99,12 +99,12 @@ function postForm() {
         v-if="!imageUploaded"
         class="btn-success mt-3"
         @click="uploadImage()"
-        :loader="loader"
+        :loader="imageLoader"
         :disabled="!imageSelected"
       >
         Upload image</BaseButton
       >
-      <BaseButton v-if="imageUploaded" class="btn-danger mt-3" @click="removeImage()" :loader="loader">
+      <BaseButton v-if="imageUploaded" class="btn-danger mt-3" @click="removeImage()" :loader="imageLoader">
         Delete image
       </BaseButton>
     </ImageUpload>
