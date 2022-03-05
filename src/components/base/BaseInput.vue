@@ -1,5 +1,5 @@
 <template>
-  <div class="form-floating mb-3">
+  <div class="mb-3" :class="{ 'form-floating': type != 'no-label' }">
     <input
       v-if="!textarea"
       :placeholder="label"
@@ -12,12 +12,13 @@
     <textarea
       v-else
       class="form-control"
+      :placeholder="label"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
       :rows="rows"
       :required="required"
     ></textarea>
-    <label>{{ label }}</label>
+    <label v-if="type != 'no-label'">{{ label }}</label>
   </div>
 </template>
 
