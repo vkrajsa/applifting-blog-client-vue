@@ -7,17 +7,20 @@ import { PostLogin } from '../types/user';
 import store from '../store/index';
 import router from '../router/index';
 
-import { reactive, ref } from 'vue';
+import { reactive, ref, Ref } from 'vue';
 
 const form = reactive<PostLogin>({
   username: '',
   password: '',
 });
 
+const loader: Ref<boolean | null> = ref(null);
+
 let errorMsg = ref('');
 
 const login = async () => {
   try {
+    loader.value = true;
     await store.dispatch('user/logIn', form);
     router.push('/articles');
   } catch (error: unknown) {
@@ -25,6 +28,8 @@ const login = async () => {
     let message = 'Something went wrong';
     if (error.response.status === 400) message = 'Invalid password or username';
     errorMsg.value = message;
+  } finally {
+    loader.value = false;
   }
 };
 </script>
@@ -34,7 +39,9 @@ const login = async () => {
     <h1 class="h3 mb-3">Please Log in</h1>
     <BaseInput v-model="form.username" label="Username" type="text" required />
     <BaseInput v-model="form.password" label="Password" type="password" required />
-    <BaseButton class="btn-primary mt-3" type="submit" :disabled="!form.username || !form.password">Log in</BaseButton>
+    <BaseButton class="btn-success mt-3" type="submit" :loader="loader" :disabled="!form.username || !form.password"
+      >Log in</BaseButton
+    >
     <BaseError v-if="!!errorMsg">{{ errorMsg }}</BaseError>
   </form>
 </template>

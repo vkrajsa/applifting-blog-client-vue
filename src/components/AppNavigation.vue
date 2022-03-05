@@ -23,7 +23,7 @@ function logOut() {
     </ul>
     <div class="col-md-3 text-end">
       <AppLink v-if="!isAuth" name="login" class="btn btn-primary">Login</AppLink>
-      <BaseButton v-if="isAuth" customClass="btn-primary" @click="logOut()">Log-out</BaseButton>
+      <BaseButton v-if="isAuth" class="btn-secondary" @click="logOut()">Log-out</BaseButton>
     </div>
   </header>
 </template>
