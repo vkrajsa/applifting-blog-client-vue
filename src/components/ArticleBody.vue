@@ -5,7 +5,7 @@ import BaseLoader from '../components/base/BaseLoader.vue';
 import BaseImage from '../components/base/BaseImage.vue';
 import ImagePlaceholder from '../components/ImagePlaceholder.vue';
 import { useImage } from '../composable/useImage';
-
+import { dateFormat } from '../utils/date-format';
 import { marked } from 'marked/src/marked.js';
 
 interface Props {
@@ -30,7 +30,7 @@ downloadImage(props.article.imageId);
     <div class="col-12">
       <article>
         <h2 class="mt-4">{{ props.article.title }}</h2>
-        <p>{{ props.article.createdAt }} by {{ blogAuthor }}</p>
+        <p>Posted at {{ dateFormat(props.article.createdAt) }} by {{ blogAuthor }}</p>
         <div v-html="marked(props.article.content)"></div>
       </article>
     </div>
