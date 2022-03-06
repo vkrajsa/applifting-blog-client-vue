@@ -19,6 +19,7 @@ const props = defineProps<Props>();
     </div>
 
     <div class="card-footer">
+      {{ props.comment.score }}
       <ArticleCommentCounter :score="props.comment.score" :id="props.comment.commentId"> </ArticleCommentCounter>
     </div>
   </div>

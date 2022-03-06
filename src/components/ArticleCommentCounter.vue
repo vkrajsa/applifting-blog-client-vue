@@ -9,13 +9,7 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const { postVote, voteState, commentScore, initScore } = useComment();
-
-const score = computed(() => {
-  return commentScore.value > 0 ? `+${commentScore.value}` : commentScore.value;
-});
-
-initScore(props.score);
+const { postVote, voteState } = useComment();
 
 async function voteComment(value: string) {
   await postVote(value, props.id);
@@ -23,8 +17,6 @@ async function voteComment(value: string) {
 </script>
 
 <template>
-  {{ score }}
-  |
   <fa-icon icon="chevron-up" class="arrow" :class="{ 'text-primary': voteState === 'up' }" @click="voteComment('up')" />
   |
   <fa-icon

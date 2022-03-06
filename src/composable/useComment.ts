@@ -30,10 +30,6 @@ export function useComment() {
     }
   }
 
-  function initScore(score: number) {
-    commentScore.value = score;
-  }
-
   async function addComment(commentData: PostComment) {
     try {
       commentLoader.value = true;
@@ -46,5 +42,5 @@ export function useComment() {
     }
   }
 
-  return { voteState, postVote, commentScore, initScore, addComment, commentLoader };
+  return { voteState, postVote, commentScore, addComment, commentLoader };
 }
