@@ -1,6 +1,5 @@
 <script setup>
 import ArticleForm from '../components/ArticleForm';
-
 import BaseLoader from '../components/base/BaseLoader';
 </script>
 <template>

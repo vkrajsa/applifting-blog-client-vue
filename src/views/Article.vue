@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ArticleDetail from '../components/ArticleDetail.vue';
+import BaseLoader from '../components/base/BaseLoader';
 </script>
 
 <template>
@@ -8,6 +9,6 @@ import ArticleDetail from '../components/ArticleDetail.vue';
     <template #default>
       <ArticleDetail />
     </template>
-    <template #fallback> Articles is downloadin....</template>
+    <template #fallback> <BaseLoader :button="false" /></template>
   </Suspense>
 </template>

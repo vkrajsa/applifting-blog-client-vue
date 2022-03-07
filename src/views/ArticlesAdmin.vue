@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AdminTable from '../components/AdminTable.vue';
-import TableSkeleton from '../components/TableSkeleton.vue';
+import BaseLoader from '../components/base/BaseLoader';
 </script>
 
 <template>
@@ -8,6 +8,6 @@ import TableSkeleton from '../components/TableSkeleton.vue';
     <template #default>
       <AdminTable />
     </template>
-    <template #fallback> <TableSkeleton /></template>
+    <template #fallback> <BaseLoader :button="false" /></template>
   </Suspense>
 </template>
