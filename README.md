@@ -2,9 +2,9 @@
 
 ## Live demo
 
-```
-https://applifting.vojtechkrajsa.cz
+- [Demo](https://applifting.vojtechkrajsa.cz)
 
+```
 testing credentials:
 username: testvojta
 password: 12345
