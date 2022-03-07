@@ -19,8 +19,7 @@ export function useArticles() {
     try {
       articleLoader.value = true;
       const response = await getArticles(pagination.value);
-
-      articles.value = response.data.items;
+      articles.value = sortByDate(response.data.items);
       pagination.value = response.data.pagination;
     } catch (error) {
       dispatchNotification(error.response.status);
