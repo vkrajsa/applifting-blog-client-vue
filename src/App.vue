@@ -8,7 +8,7 @@ export default {
 </script>
 
 <template>
-  <div id="main" class="container">
+  <div id="main" class="container pb-5">
     <AppNavigation />
     <AppNotifications />
     <router-view v-slot="{ Component }">
@@ -17,4 +17,8 @@ export default {
   </div>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+.action-icon {
+  cursor: pointer;
+}
+</style>

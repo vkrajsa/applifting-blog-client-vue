@@ -7,7 +7,6 @@
       class="form-control"
       @input="$emit('get-file', $event.target.files[0])"
       @change="setImgPreview"
-      required
     />
   </div>
   <slot></slot>
@@ -23,6 +22,7 @@
 
 <script>
 export default {
+  emits: ['get-file'],
   props: {
     required: {
       type: Boolean,
@@ -32,10 +32,10 @@ export default {
       type: String,
       default: null,
     },
-    // error: {
-    //   type: String,
-    //   default: null,
-    // },
+    imageSelected: {
+      type: File,
+      default: null,
+    },
   },
   data() {
     return {
@@ -45,6 +45,13 @@ export default {
   methods: {
     setImgPreview(event) {
       this.imgPreview = URL.createObjectURL(event.target.files[0]);
+    },
+  },
+  watch: {
+    imageSelected(fileRemoved, fileAdded) {
+      if (fileRemoved === null) {
+        this.imgPreview = null;
+      }
     },
   },
 };

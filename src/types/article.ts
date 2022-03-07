@@ -20,3 +20,9 @@ export interface PostArticle {
   perex: string | null;
   imageId: string | null;
 }
+
+export interface Pagination {
+  offset: number | null;
+  limit: number | null;
+  total: number | null;
+}

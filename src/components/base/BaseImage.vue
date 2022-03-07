@@ -13,6 +13,10 @@ export default {
       type: String,
       default: '200',
     },
+    backgroundSize: {
+      type: String,
+      default: 'cover',
+    },
     height: {
       type: String,
       default: '200',
@@ -26,6 +30,7 @@ export default {
         '--width': this.width + 'px',
         '--height': this.height + 'px',
         '--url': 'url(' + this.url + ')',
+        '--background-size': this.backgroundSize,
       };
     },
   },
@@ -45,6 +50,6 @@ export default {
   height: var(--height);
   background-image: var(--url);
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: var(--background-size);
 }
 </style>

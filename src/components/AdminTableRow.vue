@@ -32,9 +32,9 @@ function deleteArticle(): void {
     <td>{{ props.article.title }}</td>
     <td>{{ props.article.perex }}</td>
     <td>{{ blogAuthor }}</td>
-    <td>
-      <BaseButton @click="editArticle()">EDIT</BaseButton>
-      <BaseButton @click="deleteArticle()">DELETE</BaseButton>
+    <td class="text-center">
+      <fa-icon icon="pen" class="action-icon mx-2" @click="editArticle()" />
+      <fa-icon icon="trash" class="action-icon mx-2" @click="deleteArticle()" />
     </td>
   </tr>
 </template>

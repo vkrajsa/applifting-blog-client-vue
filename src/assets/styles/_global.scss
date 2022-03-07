@@ -5,3 +5,13 @@
 a {
   text-decoration: none;
 }
+
+.form-control {
+  &::placeholder {
+    color: $gray-500;
+  }
+}
+
+label {
+  color: $gray-500;
+}

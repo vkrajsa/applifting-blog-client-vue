@@ -1,8 +1,10 @@
 import api from './api';
-import { Article, PostArticle } from '../types/article';
+import { Article, PostArticle, Pagination } from '../types/article';
 
-async function getArticles(isAdmin = false) {
-  return await api.get(`/articles`, { withCredentials: isAdmin });
+async function getArticles(params?: Pagination) {
+  return await api.get(`/articles`, {
+    params,
+  });
 }
 
 async function getArticleDetail(id: string) {
