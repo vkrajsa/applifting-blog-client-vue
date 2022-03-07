@@ -7,9 +7,7 @@ import ImagePlaceholder from '@/components/ImagePlaceholder';
     <div class="col-md-6">
       <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
         <div class="col-auto d-none d-lg-block">
-          <ImagePlaceholder width="200" height="200">
-            <BaseLoader color="text-light" />
-          </ImagePlaceholder>
+          <ImagePlaceholder width="200" height="200"> </ImagePlaceholder>
         </div>
         <div class="col p-4 d-flex flex-column position-static">
           <h3 class="mb-0"></h3>
@@ -30,9 +28,7 @@ import ImagePlaceholder from '@/components/ImagePlaceholder';
     <div class="col-md-6">
       <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
         <div class="col-auto d-none d-lg-block">
-          <ImagePlaceholder width="200" height="200">
-            <BaseLoader color="text-light" />
-          </ImagePlaceholder>
+          <ImagePlaceholder width="200" height="200"> </ImagePlaceholder>
         </div>
         <div class="col p-4 d-flex flex-column position-static">
           <h3 class="mb-0"></h3>
@@ -53,9 +49,7 @@ import ImagePlaceholder from '@/components/ImagePlaceholder';
     <div class="col-md-6">
       <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
         <div class="col-auto d-none d-lg-block">
-          <ImagePlaceholder width="200" height="200">
-            <BaseLoader color="text-light" />
-          </ImagePlaceholder>
+          <ImagePlaceholder width="200" height="200"> </ImagePlaceholder>
         </div>
         <div class="col p-4 d-flex flex-column position-static">
           <h3 class="mb-0"></h3>

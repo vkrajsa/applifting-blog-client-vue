@@ -4,7 +4,7 @@ import AppLink from '../components/AppLink.vue';
 import BaseLoader from '../components/base/BaseLoader.vue';
 import BaseImage from '../components/base/BaseImage.vue';
 import BaseButton from '../components/base/BaseButton.vue';
-
+import { dateFormat } from '../utils/date';
 import ImagePlaceholder from '../components/ImagePlaceholder.vue';
 import { useImage } from '../composable/useImage';
 
@@ -31,7 +31,7 @@ downloadImage(props.article.imageId);
         </div>
         <div class="col p-4 d-flex flex-column position-static">
           <h3 class="mb-0">{{ article.title }}</h3>
-          <div class="mb-1 text-muted">{{ article.createdAt }}</div>
+          <div class="mb-1 text-muted">{{ dateFormat(article.createdAt) }}</div>
           <p class="card-text mb-auto">
             {{ article.perex }}
           </p>

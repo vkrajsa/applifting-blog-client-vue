@@ -3,6 +3,7 @@ import store from '@/store/index';
 import { ArticleDetail, PostArticle, Article, Pagination } from '../types/article';
 import { getArticles, getArticleDetail, postArticle, deleteArticle, putArticle } from '../services/article';
 import { dispatchNotification } from '../utils/notification';
+import { sortByDate } from '../utils/date';
 
 export function useArticles() {
   const articles = ref<Article[]>([]);
