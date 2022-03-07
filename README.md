@@ -2,8 +2,7 @@
 
 ## Live demo
 
-- [Demo](https://applifting.vojtechkrajsa.cz)
-  (Hosted on Wedos just for demo purposes, refreshing URL in browser won't work)
+- [Demo](https://applifting-blog-client-vue.vercel.app/)
 
 ```
 testing credentials:
