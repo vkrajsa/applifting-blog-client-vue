@@ -1,7 +1,10 @@
 {
-  "name": "applifting-blog-client-vue",
-  "version": "0.1.0",
-  "private": true,
+  "name": "blogging-engine-vue",
+  "description": "Interview homework assignment for AppLifting",
+  "repository": "https://github.com/vkrajsa/applifting-blog-client-vue",
+  "author": "Vojtěch Krajsa <vkrajsa@gmail.com>",
+  "version": "1.0.0",
+  "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
