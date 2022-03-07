@@ -2,6 +2,14 @@ export function dateFormat(date: string): string {
   return new Date(date).toLocaleDateString();
 }
 
+export const sortByDate = (items: any): [] => {
+  return items.sort(function (a: any, b: any) {
+    const date1 = new Date(a.createdAt).getTime();
+    const date2 = new Date(b.createdAt).getTime();
+    return date2 - date1;
+  });
+};
+
 export function timeAgo(date: string): string {
   // Hacky way - to get offset for both server and user date to remove it later and get relative time
   const userTimeOffset = new Date().getTimezoneOffset();

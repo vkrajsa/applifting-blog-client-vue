@@ -3,6 +3,7 @@ import store from '@/store/index';
 import { ArticleDetail, PostArticle, Article } from '../types/article';
 import { getArticles, getArticleDetail, postArticle, deleteArticle, putArticle } from '../services/article';
 import { dispatchNotification } from '../utils/notification';
+import { sortByDate } from '../utils/date';
 
 export function useArticles() {
   const articles = ref<Article[]>([]);
@@ -11,7 +12,7 @@ export function useArticles() {
   async function fetchArticles() {
     try {
       const response = await getArticles();
-      articles.value = sortArticles(response.data.items);
+      articles.value = sortByDate(response.data.items);
     } catch (error) {
       dispatchNotification(error.response.status);
     }
@@ -33,14 +34,6 @@ export function useArticles() {
       dispatchNotification(error.response.status);
     }
   }
-
-  const sortArticles = (articles: any): Article[] => {
-    return articles.sort(function (a: Article, b: Article) {
-      const date1 = new Date(a.createdAt).getTime();
-      const date2 = new Date(b.createdAt).getTime();
-      return date2 - date1;
-    });
-  };
 
   const updateArticles = (id: string): void => {
     const filteredArticles = articles.value.filter((article) => {

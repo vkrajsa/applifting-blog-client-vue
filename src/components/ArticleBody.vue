@@ -5,7 +5,7 @@ import BaseLoader from '../components/base/BaseLoader.vue';
 import BaseImage from '../components/base/BaseImage.vue';
 import ImagePlaceholder from '../components/ImagePlaceholder.vue';
 import { useImage } from '../composable/useImage';
-import { dateFormat } from '../utils/date-format';
+import { dateFormat } from '../utils/date';
 import { marked } from 'marked/src/marked.js';
 
 interface Props {

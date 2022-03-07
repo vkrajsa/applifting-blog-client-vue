@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Comment } from '../types/comment';
 import ArticleCommentCounter from './ArticleCommentCounter.vue';
-import { timeAgo } from '../utils/date-format';
+import { timeAgo } from '../utils/date';
 
 interface Props {
   comment: Comment;

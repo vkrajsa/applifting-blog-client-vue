@@ -4,8 +4,7 @@ import AppLink from '../components/AppLink.vue';
 import BaseLoader from '../components/base/BaseLoader.vue';
 import BaseImage from '../components/base/BaseImage.vue';
 import BaseButton from '../components/base/BaseButton.vue';
-import { dateFormat } from '../utils/date-format';
-
+import { dateFormat } from '../utils/date';
 import ImagePlaceholder from '../components/ImagePlaceholder.vue';
 import { useImage } from '../composable/useImage';
 
