@@ -20,10 +20,10 @@ downloadImage(props.article.imageId);
 </script>
 
 <template>
-  <div class="row justify-content-center mb-2">
-    <div class="col-md-6">
+  <div class="row justify-content-center">
+    <div class="col-md-10">
       <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-        <div class="col-auto d-none d-lg-block">
+        <div class="col-auto">
           <ImagePlaceholder v-if="imageLoader" width="200" height="200">
             <BaseLoader color="text-light" />
           </ImagePlaceholder>
