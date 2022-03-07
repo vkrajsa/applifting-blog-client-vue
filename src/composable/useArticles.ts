@@ -1,19 +1,30 @@
-import { computed, ref, Ref } from 'vue';
+import { computed, ref, Ref, watch } from 'vue';
 import store from '@/store/index';
-import { ArticleDetail, PostArticle, Article } from '../types/article';
+import { ArticleDetail, PostArticle, Article, Pagination } from '../types/article';
 import { getArticles, getArticleDetail, postArticle, deleteArticle, putArticle } from '../services/article';
 import { dispatchNotification } from '../utils/notification';
 
 export function useArticles() {
   const articles = ref<Article[]>([]);
   const articleLoader: Ref<boolean | null> = ref(null);
+  const itemsPerPage: Ref<number> = ref(5);
+  const pagination = ref<Pagination>({
+    offset: null,
+    limit: itemsPerPage.value,
+    total: null,
+  });
 
   async function fetchArticles() {
     try {
-      const response = await getArticles();
+      articleLoader.value = true;
+      const response = await getArticles(pagination.value);
+
       articles.value = response.data.items;
+      pagination.value = response.data.pagination;
     } catch (error) {
       dispatchNotification(error.response.status);
+    } finally {
+      articleLoader.value = false;
     }
   }
 
@@ -63,6 +74,14 @@ export function useArticles() {
     }
   }
 
+  async function updatePagination(offset: number) {
+    pagination.value.offset! += offset;
+    pagination.value.limit! = itemsPerPage.value;
+
+    articles.value = [];
+    fetchArticles();
+  }
+
   return {
     articleLoader,
     articles,
@@ -71,6 +90,9 @@ export function useArticles() {
     destroyArticle,
     updateArticles,
     postArticleForm,
+    pagination,
+    updatePagination,
+    itemsPerPage,
   };
 }
 
