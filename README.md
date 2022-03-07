@@ -3,6 +3,7 @@
 ## Live demo
 
 - [Demo](https://applifting.vojtechkrajsa.cz)
+  (Hosted on Wedos just for demo purposes, refreshing URL in browser won't work)
 
 ```
 testing credentials:
@@ -14,7 +15,7 @@ password: 12345
 
 ✅ Build the app with Vue.js options API with all features.
 
-- I didn't manage to do the filters on Admin dashboard, I did pagination instead
+- I didn't manage to do the filters on Admin dashboard, I did pagination instead.
 
 ✅ Experiment with Composition API and rewrie at least one component to Composition API.
 
@@ -39,6 +40,7 @@ password: 12345
 - [ ] I don't handle case when async request is interrupted by user navigation off the page before its finished.
 - [ ] I am not handling certain errors - if image is not found on article. There should be also some error handling for internal errors in the app , Vue has
 - [ ] If user uploads image and then refreshes the page without submitting form, image is uploaded without any article relation, this could be fixed by deleting the image from server in unmounted hook.
+- [ ] Pagination is not working as intended, I am getting the resources from the oldest, I should have probably started with the offset equals to limit.
 
 ## Things that could be improved
 
@@ -51,6 +53,18 @@ password: 12345
 - [ ] Sanitize markdown HTLM input
 - [ ] Not all features on MarkDown editor work since its not connected to marked plugin which I am using for parsing markdown. Probably would use different markdown editor plugin.
 - [ ] Token security - I am storing toke in localStorage, it could be store in session or http cookie if possible. I am not sure what is the best case though.
+
+## LOCAL INSTALL INSTRUCTIONS
+
+- Install all dependencies `npm install`
+- Create .env.development.local file in root folder and add ENV variables
+
+```
+VUE_APP_API = https://fullstack.exercise.applifting.cz/
+VUE_APP_WS = wss://fullstack.exercise.applifting.cz/
+VUE_APP_API_KEY = 'API_KEY'
+VUE_APP_TENANT_ID = 'TENANT_ID'
+```
 
 ## Scripts
 
