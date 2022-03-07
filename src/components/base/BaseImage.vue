@@ -40,7 +40,7 @@ export default {
 <template>
   <div class="wrapper" :style="cssAttrs">
     <!-- USED BACGKROUND IMG TO GET CONSISTENCY IN PREVIEW MIGHT USE IMG LATER-->
-    <img :src="url" class="img-fluid rounded-start" :alt="alt" :width="width" :height="height" />
+    <!-- <img :src="url" class="img-fluid rounded-start" :alt="alt" :width="width" :height="height" /> -->
   </div>
 </template>
 
